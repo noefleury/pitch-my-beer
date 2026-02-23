@@ -3,3 +3,7 @@ services:
   db:
     ports:
       - "${DB_PORT_DEBUG}:3306"
+
+  db-tests:
+    ports:
+      - "${DB_PORT_DEBUG_TEST}:3307"

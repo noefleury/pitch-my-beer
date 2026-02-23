@@ -18,3 +18,8 @@ docker-compose up -d
 docker-compose -f docker-compose.yml -f docker-compose.debug.yml up
 ```
 
+## Run tests
+
+```bash
+docker exec pitch-my-beer_web /var/www/html/artisan test
+```
