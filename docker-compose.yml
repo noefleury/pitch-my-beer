@@ -1,0 +1,44 @@
+services:
+
+  web:
+    build:
+      context: .
+      dockerfile: ./web.Dockerfile
+    restart: always
+    container_name: pitch-my-beer_web
+    volumes:
+      - ./:/var/www/html
+    command: php /var/www/html/artisan serve --host=0.0.0.0 --port=80
+    ports:
+      - "${APP_PORT}:80"
+    networks:
+      - pitch-my-beer
+
+  db:
+    image: mariadb:12.2.2
+    hostname: docker_sql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - pitch-my-beer
+
+  db-tests:
+    image: mariadb:12.2.2
+    hostname: docker_sql_tests
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_TCP_PORT: 3307
+    networks:
+      - pitch-my-beer
+
+volumes:
+  mysql:
+
+networks:
+  pitch-my-beer:
