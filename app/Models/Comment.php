@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Database\Factories\CommentFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -14,9 +16,16 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property string $entity_type
  * @property string $value
  * @property Carbon $created_at
+ *
+ * @see CommentFactory
  */
 class Comment extends Model
 {
+
+    use HasFactory;
+
+    public const null UPDATED_AT = null;
+
     protected $fillable = ['value'];
 
     protected $casts = [

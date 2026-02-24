@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\WortFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -11,13 +13,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * Class Wort
  *
  * @property int    $id
- * @property string $notes
  * @property Carbon $created_at
+ *
+ * @see WortFactory
  */
 class Wort extends Model
 {
 
     use Commentable;
+    use HasFactory;
+
+    public const null UPDATED_AT = null;
 
     protected $casts = [
         'created_at' => 'datetime',

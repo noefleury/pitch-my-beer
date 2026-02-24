@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\KeggingFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -16,27 +18,32 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int    $beer_id
  * @property int    $keg_id
  * @property Carbon $created_at
+ *
+ * @see KeggingFactory
  */
 class Kegging extends Model
 {
 
     use Commentable;
+    use HasFactory;
 
-    protected $fillable = ['volume', 'keg_id', 'fermentation_id'];
+    public const null UPDATED_AT = null;
+
+    protected $fillable = ['volume'];
 
     protected $casts = [
         'volume'     => 'float',
         'created_at' => 'datetime',
     ];
 
+    public function beer(): BelongsTo
+    {
+        return $this->belongsTo(Beer::class);
+    }
+
     public function keg(): BelongsTo
     {
         return $this->belongsTo(Keg::class);
-    }
-
-    public function fermentation(): BelongsTo
-    {
-        return $this->belongsTo(Fermentation::class);
     }
 
     public function link(): HasOne

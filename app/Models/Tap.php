@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\TapType;
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\TapFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -16,12 +18,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property TapType $type
  * @property Carbon  $created_at
  * @property ?Carbon $deleted_at
+ *
+ * @see TapFactory
  */
 class Tap extends Model
 {
 
     use Commentable;
+    use HasFactory;
     use SoftDeletes;
+
+    public const null UPDATED_AT = null;
 
     protected $fillable = ['name', 'type'];
 

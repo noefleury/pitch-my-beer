@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\LinkFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,16 +19,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int     $tap_id
  * @property Carbon  $created_at
  * @property ?Carbon $deleted_at
+ *
+ * @see LinkFactory
  */
 class Link extends Model
 {
 
     use Commentable;
+    use HasFactory;
     use SoftDeletes;
 
-    public function beer(): BelongsTo
+    public const null UPDATED_AT = null;
+
+    public function kegging(): BelongsTo
     {
-        return $this->belongsTo(Beer::class);
+        return $this->belongsTo(Kegging::class);
     }
 
     public function gazTank(): BelongsTo

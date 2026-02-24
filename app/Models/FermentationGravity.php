@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\FermentationGravityFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,11 +16,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int    $fermentation_id
  * @property float  $value
  * @property Carbon $created_at
+ *
+ * @see FermentationGravityFactory
  */
 class FermentationGravity extends Model
 {
 
     use Commentable;
+    use HasFactory;
+
+    public const null UPDATED_AT = null;
 
     protected $fillable = ['value'];
 

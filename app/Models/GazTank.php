@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Commentable;
 use Carbon\Carbon;
+use Database\Factories\GazTankFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,12 +19,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property float   $n2_percent
  * @property Carbon  $created_at
  * @property ?Carbon $deleted_at
+ *
+ * @see GazTankFactory
  */
 class GazTank extends Model
 {
 
     use Commentable;
+    use HasFactory;
     use SoftDeletes;
+
+    public const null UPDATED_AT = null;
 
     protected $fillable = ['name', 'co2_percent', 'n2_percent'];
 
