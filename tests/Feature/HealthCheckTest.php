@@ -9,7 +9,7 @@ class HealthCheckTest extends TestCase
 
     public function test_base_db_accessible(): void
     {
-        $this->assertDatabaseEmpty('cache');
+        $this->assertDatabaseEmpty('beers');
     }
 
 }
