@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Enums\BeerStatus;
-use App\Traits\Commentable;
+use App\Traits\Models\Commentable;
+use App\Traits\Models\HasUniqueIdentifier;
 use Carbon\Carbon;
 use Database\Factories\BeerFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +29,7 @@ class Beer extends Model
 
     use Commentable;
     use HasFactory;
+    use HasUniqueIdentifier;
 
     public const null UPDATED_AT = null;
 

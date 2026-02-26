@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\FermenterType;
-use App\Traits\Commentable;
+use App\Traits\Models\Commentable;
 use Carbon\Carbon;
 use Database\Factories\FermentationFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

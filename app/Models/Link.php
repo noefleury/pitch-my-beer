@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\Commentable;
+use App\Traits\Models\Commentable;
 use Carbon\Carbon;
 use Database\Factories\LinkFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

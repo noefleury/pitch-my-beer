@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Enums\TapType;
-use App\Traits\Commentable;
+use App\Traits\Models\Commentable;
+use App\Traits\Models\HasUniqueIdentifier;
 use Carbon\Carbon;
 use Database\Factories\TapFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,7 @@ class Tap extends Model
 
     use Commentable;
     use HasFactory;
+    use HasUniqueIdentifier;
     use SoftDeletes;
 
     public const null UPDATED_AT = null;
