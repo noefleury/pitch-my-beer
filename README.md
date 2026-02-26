@@ -6,6 +6,13 @@
 
 ---
 
+![php](https://img.shields.io/badge/php-8.5-blue)
+![laravel](https://img.shields.io/badge/laravel-12-blue)
+
+[![codecov](https://codecov.io/gh/noefleury/pitch-my-beer/graph/badge.svg)](https://codecov.io/gh/noefleury/pitch-my-beer)
+
+---
+
 This project is a website which aim to track beer things 🍻
 
 In brief :
