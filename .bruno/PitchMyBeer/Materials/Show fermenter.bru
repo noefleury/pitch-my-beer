@@ -1,0 +1,15 @@
+meta {
+  name: Show fermenter
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{API_ENDPOINT}}/materials/fermenters/{{id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  id: 1
+}

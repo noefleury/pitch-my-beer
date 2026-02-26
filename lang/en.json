@@ -8,5 +8,7 @@
     "name": "name",
     "volume": "volume",
     "co2": "CO2",
-    "n2": "N2"
+    "n2": "N2",
+    "Creation date": "Creation",
+    "see": "Voir"
 }

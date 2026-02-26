@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MaterialService;
-use Feature\Http\Controllers\MaterialControllerTest;
+use Tests\Feature\Http\Controllers\MaterialControllerTest;
 
 /**
  * @see MaterialControllerTest

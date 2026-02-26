@@ -15,6 +15,7 @@
                 <span>{{ $fermenter->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $fermenter->volume }} L</span>
+                <a href="{{route('fermenter', ['fermenter' => $fermenter->id])}}">{{__('see')}}</a>
                 <br/>
             @endforeach
         </div>
