@@ -33,9 +33,7 @@ class Fermenter extends Model
     protected $fillable = ['name', 'volume'];
 
     protected $casts = [
-        'volume'     => 'float',
-        'created_at' => 'datetime',
-        'deleted_at' => 'datetime',
+        'volume' => 'double',
     ];
 
     public function fermentations(): MorphMany

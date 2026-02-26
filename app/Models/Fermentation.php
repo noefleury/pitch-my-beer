@@ -37,8 +37,7 @@ class Fermentation extends Model
 
     protected $casts = [
         'fermenter_type' => FermenterType::class,
-        'volume'         => 'float',
-        'created_at'     => 'datetime',
+        'volume'         => 'double',
     ];
 
     public function wort(): BelongsTo

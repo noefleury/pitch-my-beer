@@ -28,10 +28,6 @@ class Comment extends Model
 
     protected $fillable = ['value'];
 
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
-
     public function entity(): MorphTo
     {
         return $this->morphTo();

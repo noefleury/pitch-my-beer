@@ -30,8 +30,7 @@ class FermentationGravity extends Model
     protected $fillable = ['value'];
 
     protected $casts = [
-        'value'      => 'float',
-        'created_at' => 'datetime',
+        'value' => 'double',
     ];
 
     public function fermentation(): BelongsTo

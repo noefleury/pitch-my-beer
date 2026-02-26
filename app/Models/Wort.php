@@ -25,10 +25,6 @@ class Wort extends Model
 
     public const null UPDATED_AT = null;
 
-    protected $casts = [
-        'created_at' => 'datetime',
-    ];
-
     public function fermentations(): HasMany
     {
         return $this->hasMany(Fermentation::class);

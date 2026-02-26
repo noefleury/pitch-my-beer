@@ -33,9 +33,7 @@ class Tap extends Model
     protected $fillable = ['name', 'type'];
 
     protected $casts = [
-        'type'       => TapType::class,
-        'created_at' => 'datetime',
-        'deleted_at' => 'datetime',
+        'type' => TapType::class,
     ];
 
     public function links()

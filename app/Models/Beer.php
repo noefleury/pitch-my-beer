@@ -34,7 +34,7 @@ class Beer extends Model
     protected $fillable = ['name', 'volume'];
 
     protected $casts = [
-        'volume' => 'float',
+        'volume' => 'double',
         'status' => BeerStatus::class,
     ];
 

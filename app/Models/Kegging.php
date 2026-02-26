@@ -32,8 +32,7 @@ class Kegging extends Model
     protected $fillable = ['volume'];
 
     protected $casts = [
-        'volume'     => 'float',
-        'created_at' => 'datetime',
+        'volume' => 'double',
     ];
 
     public function beer(): BelongsTo

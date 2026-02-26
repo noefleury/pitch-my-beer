@@ -33,11 +33,6 @@ class GazTank extends Model
 
     protected $fillable = ['name', 'co2_percent', 'n2_percent'];
 
-    protected $casts = [
-        'co2_percent' => 'float',
-        'n2_percent'  => 'float',
-    ];
-
     public function links(): HasMany
 
     {
