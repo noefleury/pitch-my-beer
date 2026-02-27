@@ -2,31 +2,31 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Http\Controllers\FermenterController;
-use App\Models\Fermenter;
+use App\Http\Controllers\TapController;
+use App\Models\Tap;
 use Tests\TestCase;
 
 /**
- * @see FermenterController
+ * @see TapController
  */
-class FermenterControllerTest extends TestCase
+class TapControllerTest extends TestCase
 {
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fermenter = Fermenter::factory()->create();
+        $this->tap = Tap::factory()->create();
     }
 
-    public function test_show_fermenter()
+    public function test_show_tap()
     {
-        $this->get('/api/materials/fermenters/'.$this->fermenter->getKey())
+        $this->get('/api/materials/taps/'.$this->tap->getKey())
             ->assertOk()
             ->assertExactJsonStructure([
                 'id',
                 'uid',
                 'name',
-                'volume',
+                'type',
                 'created_at',
                 'deleted_at',
             ]);

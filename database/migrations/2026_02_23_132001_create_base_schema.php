@@ -70,6 +70,7 @@ return new class extends Migration {
         Schema::create('gaz_tanks', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->float('volume');
             $table->tinyInteger('co2_percent');
             $table->tinyInteger('n2_percent');
             $table->dateTime('created_at');

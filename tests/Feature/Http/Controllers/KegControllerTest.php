@@ -2,25 +2,25 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Http\Controllers\FermenterController;
-use App\Models\Fermenter;
+use App\Http\Controllers\KegController;
+use App\Models\Keg;
 use Tests\TestCase;
 
 /**
- * @see FermenterController
+ * @see KegController
  */
-class FermenterControllerTest extends TestCase
+class KegControllerTest extends TestCase
 {
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->fermenter = Fermenter::factory()->create();
+        $this->keg = Keg::factory()->create();
     }
 
-    public function test_show_fermenter()
+    public function test_show_keg()
     {
-        $this->get('/api/materials/fermenters/'.$this->fermenter->getKey())
+        $this->get('/api/materials/kegs/'.$this->keg->getKey())
             ->assertOk()
             ->assertExactJsonStructure([
                 'id',

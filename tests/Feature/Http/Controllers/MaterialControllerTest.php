@@ -26,21 +26,20 @@ class MaterialControllerTest extends TestCase
 
     public function test_listing_materials()
     {
-        $response = $this->get('/api/materials');
-
-        $response->assertOk()
+        $this->get('/api/materials')
+            ->assertOk()
             ->assertExactJsonStructure([
                 'fermenters' => [
-                    '*' => ['id', 'name', 'volume'],
+                    '*' => ['id', 'uid', 'name', 'volume'],
                 ],
                 'gaz_tanks'  => [
-                    '*' => ['id', 'name', 'co2_percent', 'n2_percent'],
+                    '*' => ['id', 'uid', 'name', 'volume', 'co2_percent', 'n2_percent'],
                 ],
                 'kegs'       => [
-                    '*' => ['id', 'name', 'volume'],
+                    '*' => ['id', 'uid', 'name', 'volume'],
                 ],
                 'taps'       => [
-                    '*' => ['id', 'name', 'type'],
+                    '*' => ['id', 'uid', 'name', 'type'],
                 ],
             ])
             ->assertJsonCount(1, 'fermenters')

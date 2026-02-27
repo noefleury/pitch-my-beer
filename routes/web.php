@@ -1,8 +1,14 @@
 <?php
 
 use App\Models\Fermenter;
+use App\Models\GazTank;
+use App\Models\Keg;
+use App\Models\Tap;
 use App\Services\FermenterService;
+use App\Services\GazTankService;
+use App\Services\KegService;
 use App\Services\MaterialService;
+use App\Services\TapService;
 use Illuminate\Support\Facades\Route;
 
 // todo handle auth
@@ -22,4 +28,19 @@ Route::prefix('materials')->group(function () {
             'fermenter' => $fermenterService->show($fermenter),
         ]);
     })->name('fermenter');
+    Route::get('/gaz-tanks/{gazTank}', function (GazTank $gazTank, GazTankService $gazTankService) {
+        return view('materials.gaz-tank', [
+            'gazTank' => $gazTankService->show($gazTank),
+        ]);
+    })->name('gaz-tank');
+    Route::get('/kegs/{keg}', function (Keg $keg, KegService $kegService) {
+        return view('materials.keg', [
+            'keg' => $kegService->show($keg),
+        ]);
+    })->name('keg');
+    Route::get('/taps/{tap}', function (Tap $tap, TapService $tapService) {
+        return view('materials.tap', [
+            'tap' => $tapService->show($tap),
+        ]);
+    })->name('tap');
 });

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int     $id
  * @property ?string $name
+ * @property float   $volume
  * @property float   $co2_percent
  * @property float   $n2_percent
  * @property Carbon  $created_at
@@ -33,7 +34,13 @@ class GazTank extends Model
 
     public const null UPDATED_AT = null;
 
+    protected $casts = [
+        'volume' => 'double',
+    ];
+
     protected $fillable = ['name', 'co2_percent', 'n2_percent'];
+
+
 
     public function links(): HasMany
 

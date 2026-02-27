@@ -1,0 +1,15 @@
+meta {
+  name: Show keg
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{API_ENDPOINT}}/materials/kegs/{{id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  id: 1
+}

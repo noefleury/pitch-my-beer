@@ -11,12 +11,25 @@ use Exception;
 trait HasUniqueIdentifier
 {
 
+    protected function initializeHasUniqueIdentifier(): void
+    {
+        $this->append('uid');
+    }
+
     /**
      * @throws Exception
      */
     public function getUniqueIdentifier(): string
     {
         return UniqueIdentifier::getModelUniqueIdentifier($this);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function getUidAttribute(): string
+    {
+        return $this->getUniqueIdentifier();
     }
 
 }

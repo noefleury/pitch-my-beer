@@ -32,6 +32,7 @@
                 <span>{{ $gazTank->co2_percent }} %</span>
                 <b>{{ __('n2') |> ucfirst(...)  }}</b>
                 <span>{{ $gazTank->n2_percent }} %</span>
+                <a href="{{route('gaz-tank', ['gazTank' => $gazTank->id])}}">{{__('see')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -46,6 +47,7 @@
                 <span>{{ $keg->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $keg->volume }} L</span>
+                <a href="{{route('keg', ['keg' => $keg->id])}}">{{__('see')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -60,6 +62,7 @@
                 <span>{{ $tap->name }}</span>
                 <b>{{ __('type') |> ucfirst(...)  }}</b>
                 <span>{{ $tap->type }}</span>
+                <a href="{{route('tap', ['tap' => $tap->id])}}">{{__('see')}}</a>
                 <br/>
             @endforeach
         </div>

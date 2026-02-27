@@ -1,0 +1,15 @@
+meta {
+  name: Show gaz-tank
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{API_ENDPOINT}}/materials/gaz-tanks/{{id}}
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  id: 1
+}

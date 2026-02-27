@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\FermenterController;
+use App\Http\Controllers\GazTankController;
+use App\Http\Controllers\KegController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\TapController;
 use Illuminate\Support\Facades\Route;
 
 // todo handle auth
@@ -18,5 +21,20 @@ Route::prefix('materials')
             ->controller(FermenterController::class)
             ->group(function () {
                 Route::get('/{fermenter}', 'show');
+            });
+        Route::prefix('gaz-tanks')
+            ->controller(GazTankController::class)
+            ->group(function () {
+                Route::get('/{gazTank}', 'show');
+            });
+        Route::prefix('kegs')
+            ->controller(KegController::class)
+            ->group(function () {
+                Route::get('/{keg}', 'show');
+            });
+        Route::prefix('taps')
+            ->controller(TapController::class)
+            ->group(function () {
+                Route::get('/{tap}', 'show');
             });
     });

@@ -1,4 +1,4 @@
-<h1>{{ trans_choice('fermenter', 1) |> ucfirst(...) }}</h1>
+<h1>{{ trans_choice('keg', 1) |> ucfirst(...) }}</h1>
 
 <a href="{{ route('materials') }}">
     <button>{{ __('Back to materials') }}</button>
@@ -6,26 +6,26 @@
 
 <br/><br/>
 
-<div id="fermenter">
+<div id="keg">
 
-    <!-- fermenter detail -->
-    <h2>{{ $fermenter->getUniqueIdentifier() }}</h2>
+    <!-- keg-tank detail -->
+    <h2>{{ $keg->getUniqueIdentifier() }}</h2>
 
     <br/>
 
     <b>{{ __('name') |> ucfirst(...) }}</b>
-    {{ $fermenter->name }}
+    {{ $keg->name }}
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $fermenter->volume }} L
+    {{ $keg->volume }} L
     <br/>
 
     <b>{{ __('Creation') }}</b>
-    {{ $fermenter->created_at->toDateString() }}
+    {{ $keg->created_at->toDateString() }}
     <br/>
 
-    <!-- fermenter data -->
+    <!-- keg data -->
     <!-- todo -->
 
 

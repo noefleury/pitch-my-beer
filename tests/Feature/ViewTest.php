@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Fermenter;
+use App\Models\GazTank;
+use App\Models\Keg;
+use App\Models\Tap;
 use Tests\TestCase;
 
 class ViewTest extends TestCase
@@ -22,6 +25,21 @@ class ViewTest extends TestCase
     public function test_the_application_can_show_view_fermenter(): void
     {
         $this->get('/materials/fermenters/'.Fermenter::query()->first()->id)->assertOk();
+    }
+
+    public function test_the_application_can_show_view_gaz_tank(): void
+    {
+        $this->get('/materials/gaz-tanks/'.GazTank::query()->first()->id)->assertOk();
+    }
+
+    public function test_the_application_can_show_view_keg(): void
+    {
+        $this->get('/materials/kegs/'.Keg::query()->first()->id)->assertOk();
+    }
+
+    public function test_the_application_can_show_view_tap(): void
+    {
+        $this->get('/materials/taps/'.Tap::query()->first()->id)->assertOk();
     }
 
 
