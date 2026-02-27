@@ -86,7 +86,7 @@ return new class extends Migration {
 
         Schema::create('links', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kegging_id')->constrained('kegs', 'id');
+            $table->foreignId('kegging_id')->constrained('keggings', 'id');
             $table->foreignId('gaz_tank_id')->constrained('gaz_tanks', 'id');
             $table->foreignId('tap_id')->constrained('taps', 'id');
             $table->dateTime('created_at');
