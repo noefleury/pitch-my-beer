@@ -8,6 +8,7 @@ return [
      */
     'unique_identifiers' => [
         \App\Models\Beer::class      => 'BER',
+        \App\Models\Bottle::class    => 'BTL',
         \App\Models\Fermenter::class => 'FRM',
         \App\Models\GazTank::class   => 'GAZ',
         \App\Models\Keg::class       => 'KEG',

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\FermenterType;
 use App\Models\Beer;
+use App\Models\Bottle;
 use App\Models\Fermentation;
 use App\Models\FermentationGravity;
 use App\Models\Fermenter;
@@ -40,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         // useful for Commentable Trait polymorphism
         Relation::enforceMorphMap([
             'beer'                 => Beer::class,
+            'bottle'               => Bottle::class,
             'fermentation'         => Fermentation::class,
             'fermentation_gravity' => FermentationGravity::class,
             'fermenter'            => Fermenter::class,
