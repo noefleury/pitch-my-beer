@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
 use App\Models\Keg;
@@ -18,6 +19,7 @@ class MaterialService
             'gaz_tanks'  => $this->getGazTanks($includeDeleted),
             'kegs'       => $this->getKegs($includeDeleted),
             'taps'       => $this->getTaps($includeDeleted),
+            'bottles'    => $this->getBottles($includeDeleted),
         ];
     }
 
@@ -39,6 +41,11 @@ class MaterialService
     private function getTaps(bool $includeDeleted): Collection
     {
         return Tap::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+    }
+
+    private function getBottles(bool $includeDeleted): Collection
+    {
+        return Bottle::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
     }
 
 }

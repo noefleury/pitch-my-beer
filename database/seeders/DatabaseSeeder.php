@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LinkedBeerSeeder::class,
             FermentingBeerInKegSeeder::class,
+            BottledBeerSeeder::class,
         ]);
     }
 }

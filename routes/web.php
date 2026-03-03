@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
 use App\Models\Keg;
 use App\Models\Tap;
+use App\Services\BottleService;
 use App\Services\FermenterService;
 use App\Services\GazTankService;
 use App\Services\KegService;
@@ -43,4 +45,9 @@ Route::prefix('materials')->group(function () {
             'tap' => $tapService->show($tap),
         ]);
     })->name('tap');
+    Route::get('/bottles/{bottle}', function (Bottle $bottle, BottleService $bottleService) {
+        return view('materials.bottle', [
+            'bottle' => $bottleService->show($bottle),
+        ]);
+    })->name('bottle');
 });

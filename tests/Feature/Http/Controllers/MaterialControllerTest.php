@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\MaterialController;
+use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
 use App\Models\Keg;
@@ -22,6 +23,7 @@ class MaterialControllerTest extends TestCase
         GazTank::factory()->create(['name' => 'my gaz tank']);
         Keg::factory()->create(['name' => 'my keg']);
         Tap::factory()->create(['name' => 'my tap']);
+        Bottle::factory()->create();
     }
 
     public function test_listing_materials()
@@ -41,11 +43,15 @@ class MaterialControllerTest extends TestCase
                 'taps'       => [
                     '*' => ['id', 'uid', 'name', 'type'],
                 ],
+                'bottles'    => [
+                    '*' => ['id', 'uid', 'volume'],
+                ],
             ])
             ->assertJsonCount(1, 'fermenters')
             ->assertJsonCount(1, 'gaz_tanks')
             ->assertJsonCount(1, 'kegs')
-            ->assertJsonCount(1, 'taps');
+            ->assertJsonCount(1, 'taps')
+            ->assertJsonCount(1, 'bottles');
     }
 
 }

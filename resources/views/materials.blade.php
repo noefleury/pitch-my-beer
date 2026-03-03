@@ -68,4 +68,17 @@
         </div>
     </div>
 
+    <!-- bottles -->
+    <div>
+        <h2>{{ ucfirst(trans_choice('bottle', 2)) }}</h2>
+        <div>
+            @foreach($materialsByType['bottles'] as $bottle)
+                <b>{{ __('volume') |> ucfirst(...) }}</b>
+                <span>{{ $bottle->volume }} ml</span>
+                <a href="{{route('bottle', ['bottle' => $bottle->id])}}">{{__('see')}}</a>
+                <br/>
+            @endforeach
+        </div>
+    </div>
+
 </div>

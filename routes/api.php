@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BottleController;
 use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
 use App\Http\Controllers\KegController;
@@ -36,5 +37,10 @@ Route::prefix('materials')
             ->controller(TapController::class)
             ->group(function () {
                 Route::get('/{tap}', 'show');
+            });
+        Route::prefix('bottles')
+            ->controller(BottleController::class)
+            ->group(function () {
+                Route::get('/{bottle}', 'show');
             });
     });

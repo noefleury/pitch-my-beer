@@ -12,7 +12,6 @@ enum BeerStatus: string
     case Guarding = 'guarding';
     case Carbonating = 'carbonating';
     case Ready = 'ready';
-    case Linked = 'linked';
     case Consumed = 'consumed';
 
 }
