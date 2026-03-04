@@ -23,6 +23,14 @@ class ViewTest extends TestCase
         $this->get('/materials')->assertOk();
     }
 
+    public function test_the_application_can_show_view_materials_find_by_uid(): void
+    {
+        $gazTankId = GazTank::query()->first()->id;
+        $uid       = urlencode("GAZ#$gazTankId");
+
+        $this->get("/materials/find/$uid")->assertRedirect("/materials/gaz-tanks/$gazTankId");
+    }
+
     public function test_the_application_can_show_view_fermenter(): void
     {
         $this->get('/materials/fermenters/'.Fermenter::query()->first()->id)->assertOk();

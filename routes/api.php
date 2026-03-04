@@ -18,6 +18,7 @@ Route::prefix('materials')
     ->controller(MaterialController::class)
     ->group(function () {
         Route::get('/', 'index');
+        Route::get('/find/{uid}', 'findByUid');
         Route::prefix('fermenters')
             ->controller(FermenterController::class)
             ->group(function () {

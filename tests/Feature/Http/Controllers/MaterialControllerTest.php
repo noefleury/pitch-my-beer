@@ -54,4 +54,15 @@ class MaterialControllerTest extends TestCase
             ->assertJsonCount(1, 'bottles');
     }
 
+    public function test_find_material_by_uid()
+    {
+        $fermenterId = Fermenter::query()->first()->id;
+        $uid         = urlencode("FRM#$fermenterId");
+
+        $this->get("/api/materials/find/$uid")
+            ->assertExactJson([
+                'uri' => "/materials/fermenters/$fermenterId",
+            ]);
+    }
+
 }

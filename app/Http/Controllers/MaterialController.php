@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\MaterialService;
+use Exception;
 use Tests\Feature\Http\Controllers\MaterialControllerTest;
 
 /**
@@ -19,6 +20,16 @@ class MaterialController extends Controller
     {
         return $this->jsonResponse(
             $this->materialService->listMaterialsByType(),
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function findByUid(string $uid)
+    {
+        return $this->jsonResponse(
+            ['uri' => $this->materialService->getUriByUid($uid)],
         );
     }
 }

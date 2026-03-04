@@ -25,6 +25,9 @@ Route::prefix('materials')->group(function () {
             'materialsByType' => $materialService->listMaterialsByType(),
         ]);
     })->name('materials');
+    Route::get('/find/{uid}', function (MaterialService $materialService, string $uid) {
+        return redirect($materialService->getUriByUid($uid));
+    })->name('material-find');
     Route::get('/fermenters/{fermenter}', function (Fermenter $fermenter, FermenterService $fermenterService) {
         return view('materials.fermenter', [
             'fermenter' => $fermenterService->show($fermenter),
