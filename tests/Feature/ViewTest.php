@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
@@ -54,6 +55,16 @@ class ViewTest extends TestCase
     public function test_the_application_can_show_view_bottle(): void
     {
         $this->get('/materials/bottles/'.Bottle::query()->first()->id)->assertOk();
+    }
+
+    public function test_the_application_can_show_view_beers(): void
+    {
+        $this->get('/beers')->assertOk();
+    }
+
+    public function test_the_application_can_show_view_beer(): void
+    {
+        $this->get('/beers/'.Beer::query()->first()->id)->assertOk();
     }
 
 

@@ -23,7 +23,7 @@ class FermenterService
     public function getRelationsData(Fermenter $fermenter): array
     {
         return [
-            'current_fermentation' => $fermenter->fermentations()->latest()->first([
+            'current_fermentation' => $fermenter->fermentations()->latest('id')->first([
                 'id',
                 'volume',
                 'created_at',

@@ -1,7 +1,9 @@
 {
     "Back to home": "Back to home",
     "Back to materials": "Back to materials",
+    "Back to beers": "Back to beers",
     "material": "material|materials",
+    "beer": "beer|beers",
     "fermenter": "fermenter|fermenters",
     "gaz_tank": "gaz tank|gaz tanks",
     "keg": "keg|kegs",
@@ -11,6 +13,14 @@
     "volume": "volume",
     "co2": "CO2",
     "n2": "N2",
-    "Creation date": "Creation",
-    "see": "Voir"
+    "Creation": "Creation",
+    "Fermentation": "Fermentation",
+    "Type": "Type",
+    "Status": "Status",
+    "Homemade": "Homemade",
+    "See": "Voir",
+    "Yes": "Yes",
+    "No": "No",
+    "Keggings": "Keggings",
+    "Bottlings": "Bottlings"
 }

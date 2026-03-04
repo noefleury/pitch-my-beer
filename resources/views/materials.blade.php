@@ -15,7 +15,7 @@
                 <span>{{ $fermenter->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $fermenter->volume }} L</span>
-                <a href="{{route('fermenter', ['fermenter' => $fermenter->id])}}">{{__('see')}}</a>
+                <a href="{{route('fermenter', ['fermenter' => $fermenter->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -32,7 +32,7 @@
                 <span>{{ $gazTank->co2_percent }} %</span>
                 <b>{{ __('n2') |> ucfirst(...)  }}</b>
                 <span>{{ $gazTank->n2_percent }} %</span>
-                <a href="{{route('gaz-tank', ['gazTank' => $gazTank->id])}}">{{__('see')}}</a>
+                <a href="{{route('gaz-tank', ['gazTank' => $gazTank->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -47,7 +47,7 @@
                 <span>{{ $keg->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $keg->volume }} L</span>
-                <a href="{{route('keg', ['keg' => $keg->id])}}">{{__('see')}}</a>
+                <a href="{{route('keg', ['keg' => $keg->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -60,9 +60,9 @@
             @foreach($materialsByType['taps'] as $tap)
                 <b>{{ __('name') |> ucfirst(...) }}</b>
                 <span>{{ $tap->name }}</span>
-                <b>{{ __('type') |> ucfirst(...)  }}</b>
+                <b>{{ __('Type') }}</b>
                 <span>{{ $tap->type }}</span>
-                <a href="{{route('tap', ['tap' => $tap->id])}}">{{__('see')}}</a>
+                <a href="{{route('tap', ['tap' => $tap->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
         </div>
@@ -74,8 +74,8 @@
         <div>
             @foreach($materialsByType['bottles'] as $bottle)
                 <b>{{ __('volume') |> ucfirst(...) }}</b>
-                <span>{{ $bottle->volume }} ml</span>
-                <a href="{{route('bottle', ['bottle' => $bottle->id])}}">{{__('see')}}</a>
+                <span>{{ $bottle->volume }} mL</span>
+                <a href="{{route('bottle', ['bottle' => $bottle->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
         </div>

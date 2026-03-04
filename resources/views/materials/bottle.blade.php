@@ -14,7 +14,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $bottle->volume }} ml
+    {{ $bottle->volume }} mL
     <br/>
 
     <b>{{ __('Creation') }}</b>

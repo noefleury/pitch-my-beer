@@ -27,18 +27,18 @@
 
     <!-- relations data -->
 
-    @if( $currentFermentation = $relations->current_fermentation)
+    @if($currentFermentation = $relations->current_fermentation)
 
         <h3>Current fermentation</h3>
 
         <b>{{ __('volume') |> ucfirst(...) }}</b>
-        {{ $relations->current_fermentation->volume }} L
+        {{ $currentFermentation->volume }} L
         <br/>
 
         <b>{{ __('Creation') }}</b>
-        {{ $relations->current_fermentation->created_at->toDateString() }}
+        {{ $currentFermentation->created_at->toDateString() }}
         <br/>
-        
+
     @endif
 
 

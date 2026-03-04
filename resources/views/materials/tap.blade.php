@@ -17,7 +17,7 @@
     {{ $tap->name }}
     <br/>
 
-    <b>{{ __('type') |> ucfirst(...) }}</b>
+    <b>{{ __('Type') }}</b>
     {{ $tap->type }}
     <br/>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BeerController;
 use App\Http\Controllers\BottleController;
 use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
@@ -45,4 +46,12 @@ Route::prefix('materials')
             ->group(function () {
                 Route::get('/{bottle}', 'show');
             });
+    });
+
+Route::prefix('beers')
+    ->controller(BeerController::class)
+    ->group(function () {
+        Route::get('/', 'list');
+        Route::get('/{beer}', 'get');
+        Route::get('/{beer}/relations', 'getRelations');
     });

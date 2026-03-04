@@ -7,9 +7,11 @@ use App\Traits\Models\Commentable;
 use App\Traits\Models\HasUniqueIdentifier;
 use Carbon\Carbon;
 use Database\Factories\BeerFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class Beer
@@ -17,10 +19,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int        $id
  * @property string     $name
  * @property string     $type
- * @property ?float     $volume in liters
+ * @property ?float     $volume      in liters
  * @property ?int       $fermentation_id
  * @property BeerStatus $status
  * @property Carbon     $created_at
+ *
+ * @property-read  bool $is_homemade
+ * @see self::isHomemade()
  *
  * @see BeerFactory
  */
@@ -40,13 +45,29 @@ class Beer extends Model
         'status' => BeerStatus::class,
     ];
 
+    protected $appends = [
+        'is_homemade',
+    ];
+
     public function fermentation(): BelongsTo
     {
         return $this->belongsTo(Fermentation::class);
     }
 
-    public function links()
+    public function keggings(): HasMany
     {
-        return $this->hasMany(Link::class);
+        return $this->hasMany(Kegging::class);
+    }
+
+    public function bottlings(): HasMany
+    {
+        return $this->hasMany(Bottling::class);
+    }
+
+    protected function isHomemade(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => filled($this->fermentation_id),
+        );
     }
 }

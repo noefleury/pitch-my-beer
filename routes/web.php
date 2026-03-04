@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
 use App\Models\Keg;
 use App\Models\Tap;
+use App\Services\BeerService;
 use App\Services\BottleService;
 use App\Services\FermenterService;
 use App\Services\GazTankService;
@@ -54,4 +56,18 @@ Route::prefix('materials')->group(function () {
             'bottle' => $bottleService->show($bottle),
         ]);
     })->name('bottle');
+});
+
+Route::prefix('beers')->group(function () {
+    Route::get('/', function (BeerService $beerService) {
+        return view('beers.list', [
+            'beers' => $beerService->list(),
+        ]);
+    })->name('beers');
+    Route::get('/{beer}', function (Beer $beer, BeerService $beerService) {
+        return view('beers.beer', [
+            'beer'      => $beerService->get($beer),
+            'relations' => (object)$beerService->getRelationsData($beer),
+        ]);
+    })->name('beer');
 });
