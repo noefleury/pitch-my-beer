@@ -23,6 +23,7 @@ Route::prefix('materials')
             ->controller(FermenterController::class)
             ->group(function () {
                 Route::get('/{fermenter}', 'show');
+                Route::get('/{fermenter}/relations', 'getRelations');
             });
         Route::prefix('gaz-tanks')
             ->controller(GazTankController::class)

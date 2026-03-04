@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\FermenterController;
+use App\Models\Fermentation;
 use App\Models\Fermenter;
+use App\Models\Wort;
 use Tests\TestCase;
 
 /**
@@ -29,6 +31,20 @@ class FermenterControllerTest extends TestCase
                 'volume',
                 'created_at',
                 'deleted_at',
+            ]);
+    }
+
+    public function test_get_fermenter_relations()
+    {
+        Fermentation::factory()->for($this->fermenter)->for(Wort::factory())->create();
+        $this->get('/api/materials/fermenters/'.$this->fermenter->getKey().'/relations')
+            ->assertOk()
+            ->assertExactJsonStructure([
+                'current_fermentation' => [
+                    'id',
+                    'volume',
+                    'created_at',
+                ],
             ]);
     }
 

@@ -22,4 +22,11 @@ class FermenterController extends Controller
             $this->fermenterService->show($fermenter),
         );
     }
+
+    public function getRelations(Fermenter $fermenter)
+    {
+        return $this->jsonResponse(
+            $this->fermenterService->getRelationsData($fermenter),
+        );
+    }
 }

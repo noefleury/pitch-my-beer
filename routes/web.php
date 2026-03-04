@@ -31,6 +31,7 @@ Route::prefix('materials')->group(function () {
     Route::get('/fermenters/{fermenter}', function (Fermenter $fermenter, FermenterService $fermenterService) {
         return view('materials.fermenter', [
             'fermenter' => $fermenterService->show($fermenter),
+            'relations' => (object)$fermenterService->getRelationsData($fermenter),
         ]);
     })->name('fermenter');
     Route::get('/gaz-tanks/{gazTank}', function (GazTank $gazTank, GazTankService $gazTankService) {
