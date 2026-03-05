@@ -84,6 +84,7 @@ class BeerControllerTest extends TestCase
                         'beer_id',
                         'keg_id',
                         'created_at',
+                        'deleted_at',
                     ],
 
                 ],

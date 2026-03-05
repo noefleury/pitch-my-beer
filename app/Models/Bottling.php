@@ -8,14 +8,16 @@ use Database\Factories\BottlingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Bottling
  *
- * @property int    $id
- * @property int    $beer_id
- * @property int    $bottle_id
- * @property Carbon $created_at
+ * @property int     $id
+ * @property int     $beer_id
+ * @property int     $bottle_id
+ * @property Carbon  $created_at
+ * @property ?Carbon $deleted_at
  *
  * @see BottlingFactory
  */
@@ -24,6 +26,7 @@ class Bottling extends Model
 
     use Commentable;
     use HasFactory;
+    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 
