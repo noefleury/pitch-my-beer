@@ -13,7 +13,7 @@
 
     <br/>
 
-    <b>{{ __('name') |> ucfirst(...) }}</b>
+    <b>{{ __('Name') }}</b>
     {{ $gazTank->name }}
     <br/>
 

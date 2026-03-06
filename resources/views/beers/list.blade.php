@@ -6,28 +6,8 @@
 
 <div id="beers">
 
-    @foreach($beers as $beer)
+    <br/>
 
-        <!-- beer detail -->
-
-        <h2>{{ $beer->getUniqueIdentifier() }}</h2>
-
-        <br/>
-
-        <b>{{ __('name') |> ucfirst(...) }}</b>
-        {{ $beer->name }}
-        <br/>
-
-        <b>{{ __('Type') }}</b>
-        {{ $beer->type }}
-        <br/>
-
-        <b>{{ __('Creation') }}</b>
-        {{ $beer->created_at->toDateString() }}
-        <br/>
-
-        <a href="{{route('beer', ['beer' => $beer->id])}}">{{__('See')}}</a>
-
-    @endforeach
+    <x-table :headers="$headers" :rows="$rows" :trusted="$trusted"></x-table>
 
 </div>

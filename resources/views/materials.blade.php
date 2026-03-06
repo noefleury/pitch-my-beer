@@ -11,7 +11,7 @@
         <h2>{{ ucfirst(trans_choice('fermenter', 2)) }}</h2>
         <div>
             @foreach($materialsByType['fermenters'] as $fermenter)
-                <b>{{ __('name') |> ucfirst(...) }}</b>
+                <b>{{ __('Name') }}</b>
                 <span>{{ $fermenter->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $fermenter->volume }} L</span>
@@ -26,7 +26,7 @@
         <h2>{{ ucfirst(trans_choice('gaz_tank', 2)) }}</h2>
         <div>
             @foreach($materialsByType['gaz_tanks'] as $gazTank)
-                <b>{{ __('name') |> ucfirst(...) }}</b>
+                <b>{{ __('Name') }}</b>
                 <span>{{ $gazTank->name }}</span>
                 <b>{{ __('co2') |> ucfirst(...)  }}</b>
                 <span>{{ $gazTank->co2_percent }} %</span>
@@ -43,7 +43,7 @@
         <h2>{{ ucfirst(trans_choice('keg', 2)) }}</h2>
         <div>
             @foreach($materialsByType['kegs'] as $keg)
-                <b>{{ __('name') |> ucfirst(...) }}</b>
+                <b>{{ __('Name') }}</b>
                 <span>{{ $keg->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
                 <span>{{ $keg->volume }} L</span>
@@ -58,7 +58,7 @@
         <h2>{{ ucfirst(trans_choice('tap', 2)) }}</h2>
         <div>
             @foreach($materialsByType['taps'] as $tap)
-                <b>{{ __('name') |> ucfirst(...) }}</b>
+                <b>{{ __('Name') }}</b>
                 <span>{{ $tap->name }}</span>
                 <b>{{ __('Type') }}</b>
                 <span>{{ $tap->type }}</span>

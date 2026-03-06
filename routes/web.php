@@ -59,11 +59,7 @@ Route::prefix('materials')->group(function () {
 });
 
 Route::prefix('beers')->group(function () {
-    Route::get('/', function (BeerService $beerService) {
-        return view('beers.list', [
-            'beers' => $beerService->list(),
-        ]);
-    })->name('beers');
+    Route::get('/', 'App\View\Controllers\ViewController@showBeers')->name('beers');
     Route::get('/{beer}', function (Beer $beer, BeerService $beerService) {
         return view('beers.beer', [
             'beer'      => $beerService->get($beer),

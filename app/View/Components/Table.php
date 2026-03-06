@@ -4,7 +4,9 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -68,5 +70,36 @@ class Table extends Component
     public function render(): View|Closure|string
     {
         return view('components.table');
+    }
+
+    /**
+     * Easy build table rows from Collection
+     *
+     * @note this will iterate through $rowsAttribute and create object from it
+     *
+     * @param   Collection  $collection
+     * @param   array       $rowsAttribute  item can be model attribute name or callback($model)
+     *
+     * @return array
+     */
+    public static function buildTableRows(Collection $collection, array $rowsAttribute): array
+    {
+        return $collection->map(function (object $object) use ($rowsAttribute) {
+            $row = [];
+
+            foreach ($rowsAttribute as $rowAttribute) {
+                if (is_string($rowAttribute)) {
+                    $row[] = $object->$rowAttribute;
+                } elseif (is_callable($rowAttribute)) {
+                    $row[] = $rowAttribute($object);
+                } else {
+                    throw new RuntimeException(
+                        'Component error. Tried to build table rows with un-handled attribute type',
+                    );
+                }
+            }
+
+            return $row;
+        })->toArray();
     }
 }
