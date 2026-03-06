@@ -10,8 +10,12 @@
         <tbody>
         @foreach($rows as $row)
             <tr>
-                @foreach($row as $value)
-                    <td>{{ $value }}</td>
+                @foreach($row as $idx => $value)
+                    @if(in_array($idx, $trusted))
+                        <td>{!! $value !!}</td>
+                    @else
+                        <td>{{ $value }}</td>
+                    @endif
                 @endforeach
             </tr>
         @endforeach

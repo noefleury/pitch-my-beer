@@ -22,4 +22,14 @@ class TableTest extends TestCase
         new Table(['id', 'name', 'year'], [[1, 'dummy', 2026], [2, 'no year column']]);
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function test_that_table_check_trusted_vars_exists_in_headers(): void
+    {
+        $this->expectExceptionMessage('Component error. Table trusted columns contain unexisting header');
+
+        new Table(['id', 'name', 'year'], [[1, 'dummy', 2026]], ['link']);
+    }
+
 }

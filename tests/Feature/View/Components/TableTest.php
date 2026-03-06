@@ -43,5 +43,28 @@ class TableTest extends TestCase
         ], false);
     }
 
+    public function test_table_generation_handle_trusted_columns()
+    {
+        $headers = ['#', 'name', 'link'];
+        $rows    = [[1, '<button>injection</button>', '<button>go</button>']];
+        $trusted = ['link'];
+
+        $view = $this->blade(
+            '<x-table :headers="$headers" :rows="$rows" :trusted="$trusted"></x-table>',
+            ['headers' => $headers, 'rows' => $rows, 'trusted' => $trusted],
+        );
+
+        $view->assertSeeInOrder([
+            '<th>#</th>',
+            '<th>name</th>',
+            '<th>link</th>',
+        ],
+            false);
+
+        $view->assertSeeText('<button>injection</button>');
+        $view->assertSee('<button>injection</button>');
+        $view->assertDontSeeText('<button>go</button>');
+        $view->assertSee('<button>go</button>', false);
+    }
 
 }

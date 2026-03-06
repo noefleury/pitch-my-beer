@@ -13,6 +13,7 @@ use Throwable;
  * Example:
  *
  * <x-table :headers="['#', 'name', 'date']" :rows="$data"></x-table>
+ * <x-table :headers="['#', 'name', 'link']" :rows="$data" :trusted="['link']"></x-table>
  *
  * @see     \Tests\Feature\View\Components\TableTest
  * @see     \Tests\Unit\View\Components\TableTest
@@ -26,8 +27,10 @@ class Table extends Component
     public function __construct(
         public readonly array $headers,
         public readonly array $rows,
+        public array $trusted = [],
     ) {
         $this->ensureValid();
+        $this->mapTrustedColumnsToIndex();
     }
 
     /**
@@ -43,6 +46,20 @@ class Table extends Component
                 'Component error. Table headers size mismatch with rows size',
             );
         }
+    }
+
+    /**
+     * This method will map trusted columns name to their index in the rows (using headers)
+     * @return void
+     * @throws Throwable
+     */
+    private function mapTrustedColumnsToIndex(): void
+    {
+        $this->trusted = array_map(fn($trusted) => array_search($trusted, $this->headers), $this->trusted);
+        throw_if(
+            in_array(false, $this->trusted),
+            'Component error. Table trusted columns contain unexisting header',
+        );
     }
 
     /**
