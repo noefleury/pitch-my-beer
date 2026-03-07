@@ -14,4 +14,20 @@ enum BeerStatus: string
     case Ready = 'ready';
     case Consumed = 'consumed';
 
+    /**
+     * Check if a beer have finished fermentation, from its given status
+     *
+     * @param   BeerStatus  $status
+     *
+     * @return bool
+     */
+    public static function finishedFermentation(self $status): bool
+    {
+        return !in_array($status, [
+            self::ToDo,
+            self::Planned,
+            self::Doing,
+            self::Fermenting,
+        ]);
+    }
 }

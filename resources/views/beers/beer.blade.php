@@ -25,6 +25,10 @@
     {{ $beer->volume }} L
     <br/>
 
+    <b>{{ __('ABV') }}</b>
+    {{ filled($beer->abv) ? round($beer->abv, 2).' %' : __('N/A') }}
+    <br/>
+
     <b>{{ __('status') |> ucfirst(...) }}</b>
     {{ $beer->status }}
     <br/>

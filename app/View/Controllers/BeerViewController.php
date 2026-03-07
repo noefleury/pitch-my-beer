@@ -21,13 +21,14 @@ class BeerViewController extends ViewController
                 'uid',
                 'name',
                 'type',
+                fn(Beer $beer) => filled($beer->abv) ? round($beer->abv, 2).' %' : __('N/A'),
                 fn(Beer $beer) => $beer->created_at->toDateString(),
                 fn(Beer $beer) => '<a href="'.route('beer', ['beer' => $beer->id]).'">'.__('See').'</a>',
             ],
         );
 
         return view('beers.list', [
-            'headers' => ['#', 'Name', 'Type', 'Creation', 'See'],
+            'headers' => ['#', 'Name', 'Type', 'ABV', 'Creation', 'See'],
             'rows'    => $rows,
             'trusted' => ['See'],
         ]);

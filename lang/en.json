@@ -18,6 +18,8 @@
     "Creation": "Creation",
     "Fermentation": "Fermentation",
     "Type": "Type",
+    "ABV": "ABV",
+    "N/A": "N/A",
     "Status": "Status",
     "Homemade": "Homemade",
     "See": "See",

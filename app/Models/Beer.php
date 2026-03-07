@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\BeerStatus;
+use App\Helpers\Abv;
 use App\Traits\Models\Commentable;
 use App\Traits\Models\HasUniqueIdentifier;
 use Carbon\Carbon;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Tests\Feature\Models\BeerTest;
 
 /**
  * Class Beer
@@ -21,13 +23,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string     $type
  * @property ?float     $volume      in liters
  * @property ?int       $fermentation_id
+ * @property ?float     $abv         in %
  * @property BeerStatus $status
  * @property Carbon     $created_at
  *
  * @property-read  bool $is_homemade
  * @see self::isHomemade()
  *
+ * @see self::abv()
+ *
  * @see BeerFactory
+ * @see BeerTest
  */
 class Beer extends Model
 {
@@ -42,11 +48,16 @@ class Beer extends Model
 
     protected $casts = [
         'volume' => 'double',
+        'abv'    => 'double',
         'status' => BeerStatus::class,
     ];
 
     protected $appends = [
         'is_homemade',
+    ];
+
+    protected $hidden = [
+        'fermentation', // as appended by abv() accessor
     ];
 
     public function fermentation(): BelongsTo
@@ -68,6 +79,30 @@ class Beer extends Model
     {
         return Attribute::make(
             get: fn(mixed $value, array $attributes) => filled($this->fermentation_id),
+        );
+    }
+
+    /**
+     * Auto-computed from gravities when null and beer finished fermenting
+     *
+     * @return Attribute
+     */
+    protected function abv(): Attribute
+    {
+        return Attribute::make(
+            get: function (?float $abv) {
+                if (filled($abv)) {
+                    return $abv;
+                }
+                if (BeerStatus::finishedFermentation($this->status)) {
+                    $gravities = $this->fermentation->gravities()->oldest('id')->get();
+                    if ($gravities->count() >= 2) {
+                        return Abv::computeFromGravities($gravities->first()->value, $gravities->last()->value);
+                    }
+                }
+
+                return null;
+            },
         );
     }
 }
