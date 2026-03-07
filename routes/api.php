@@ -55,3 +55,9 @@ Route::prefix('beers')
         Route::get('/{beer}', 'get');
         Route::get('/{beer}/relations', 'getRelations');
     });
+
+Route::prefix('on-taps')
+    ->controller(TapController::class)
+    ->group(function () {
+        Route::get('/', 'getOnTaps');
+    });

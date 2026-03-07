@@ -4,6 +4,7 @@
     "Back to beers": "Back to beers",
     "material": "material|materials",
     "beer": "beer|beers",
+    "on taps": "on taps",
     "fermenter": "fermenter|fermenters",
     "gaz_tank": "gaz tank|gaz tanks",
     "keg": "keg|kegs",
@@ -25,5 +26,7 @@
     "Keggings": "Keggings",
     "Bottlings": "Bottlings",
     "Comments": "Comments",
-    "Available": "Available"
+    "Available": "Available",
+    "Gaz": "Gaz",
+    "Date": "Date"
 }

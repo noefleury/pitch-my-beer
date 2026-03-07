@@ -7,9 +7,10 @@ use App\Models\Bottling;
 use App\Models\Kegging;
 use App\Services\BeerService;
 use App\View\Components\Table;
+use Illuminate\Routing\ViewController;
 use Illuminate\View\View;
 
-class ViewController extends \Illuminate\Routing\ViewController
+class BeerViewController extends ViewController
 {
 
     public function showBeers(BeerService $beerService): View

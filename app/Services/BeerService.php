@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Enums\FermenterType;
 use App\Models\Beer;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Carbon;
 
 class BeerService
 {

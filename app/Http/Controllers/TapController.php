@@ -22,4 +22,11 @@ class TapController extends Controller
             $this->tapService->show($tap),
         );
     }
+
+    public function getOnTaps()
+    {
+        return $this->jsonResponse(
+            $this->tapService->getOnTaps(),
+        );
+    }
 }

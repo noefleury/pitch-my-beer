@@ -11,6 +11,8 @@ use App\Services\GazTankService;
 use App\Services\KegService;
 use App\Services\MaterialService;
 use App\Services\TapService;
+use App\View\Controllers\BeerViewController;
+use App\View\Controllers\TapViewController;
 use Illuminate\Support\Facades\Route;
 
 // todo handle auth
@@ -56,7 +58,11 @@ Route::prefix('materials')->group(function () {
     })->name('bottle');
 });
 
-Route::prefix('beers')->group(function () {
-    Route::get('/', 'App\View\Controllers\ViewController@showBeers')->name('beers');
-    Route::get('/{beer}', 'App\View\Controllers\ViewController@showBeer')->name('beer');
+Route::prefix('beers')->controller(BeerViewController::class)->group(function () {
+    Route::get('/', 'showBeers')->name('beers');
+    Route::get('/{beer}', 'showBeer')->name('beer');
+});
+
+Route::prefix('on-taps')->controller(TapViewController::class)->group(function () {
+    Route::get('/', 'showOnTaps')->name('on-taps');
 });

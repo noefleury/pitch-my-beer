@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\View;
 
 use App\Models\Beer;
 use App\Models\Bottle;
@@ -67,5 +67,9 @@ class ViewTest extends TestCase
         $this->get('/beers/'.Beer::query()->first()->id)->assertOk();
     }
 
+    public function test_the_application_can_show_view_on_taps(): void
+    {
+        $this->get('/on-taps')->assertOk();
+    }
 
 }
