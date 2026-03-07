@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Fermenter;
 use App\Models\GazTank;
 use App\Models\Keg;
 use App\Models\Tap;
-use App\Services\BeerService;
 use App\Services\BottleService;
 use App\Services\FermenterService;
 use App\Services\GazTankService;
@@ -60,10 +58,5 @@ Route::prefix('materials')->group(function () {
 
 Route::prefix('beers')->group(function () {
     Route::get('/', 'App\View\Controllers\ViewController@showBeers')->name('beers');
-    Route::get('/{beer}', function (Beer $beer, BeerService $beerService) {
-        return view('beers.beer', [
-            'beer'      => $beerService->get($beer),
-            'relations' => (object)$beerService->getRelationsData($beer),
-        ]);
-    })->name('beer');
+    Route::get('/{beer}', 'App\View\Controllers\ViewController@showBeer')->name('beer');
 });

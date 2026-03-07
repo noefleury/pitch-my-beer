@@ -6,6 +6,7 @@ use App\Http\Controllers\BeerController;
 use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Bottling;
+use App\Models\Comment;
 use App\Models\Fermentation;
 use App\Models\Fermenter;
 use App\Models\Keg;
@@ -24,6 +25,7 @@ class BeerControllerTest extends TestCase
         parent::setUp();
         $fermentation = Fermentation::factory()->for(Wort::factory())->for(Fermenter::factory())->create();
         $this->beer   = Beer::factory()->for($fermentation)->create();
+        Comment::factory()->for($this->beer, 'entity')->create();
     }
 
     public function test_list_beers()
@@ -85,6 +87,10 @@ class BeerControllerTest extends TestCase
                         'keg_id',
                         'created_at',
                         'deleted_at',
+                        'keg' => [
+                            'id',
+                            'uid',
+                        ],
                     ],
 
                 ],
@@ -96,8 +102,16 @@ class BeerControllerTest extends TestCase
                         'created_at',
                         'deleted_at',
                         'bottle' => [
+                            'id',
+                            'uid',
                             'volume',
                         ],
+                    ],
+                ],
+                'comments'     => [
+                    '*' => [
+                        'value',
+                        'created_at',
                     ],
                 ],
             ]);

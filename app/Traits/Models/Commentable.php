@@ -13,7 +13,7 @@ trait Commentable
 
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'entity');
+        return $this->morphMany(Comment::class, 'entity')->latest('id');
     }
 
 }

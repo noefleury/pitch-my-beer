@@ -68,20 +68,10 @@
 
         <h3>{{ __('Keggings') }}</h3>
 
-        @foreach($beer->keggings as $kegging)
+        <span>{{ $beer->keggings->first()->created_at->toDateString() }}</span>
+        <br/><br/>
 
-            <b>{{ __('volume') |> ucfirst(...) }}</b>
-            {{ $kegging->volume }} L
-            <br/>
-
-            <b>{{ __('Creation') }}</b>
-            {{ $kegging->created_at->toDateString() }}
-            <br/>
-
-            <a href="{{route('keg', ['keg' => $kegging->id])}}">{{__('See')}}</a>
-            <br/>
-
-        @endforeach
+        <x-table :headers="$keggingsHeaders" :rows="$keggingsRows"></x-table>
 
     @endif
 
@@ -89,18 +79,26 @@
 
         <h3>{{ __('Bottlings') }}</h3>
 
-        @foreach($beer->bottlings as $bottling)
+        <span>{{ $beer->bottlings->first()->created_at->toDateString() }}</span>
+        <br/><br/>
 
-            <b>{{ __('volume') |> ucfirst(...) }}</b>
-            {{ $bottling->bottle->volume }} mL
+        <x-table :headers="$bottlingsHeaders" :rows="$bottlingsRows"></x-table>
+
+    @endif
+
+    @if($beer->comments->isNotEmpty())
+
+        <h3>{{ __('Comments') }}</h3>
+
+        @foreach($beer->comments as $comment)
+
+            <b>{{ $comment->created_at->toDateString() }}</b>
+
             <br/>
 
-            <b>{{ __('Creation') }}</b>
-            {{ $bottling->created_at->toDateString() }}
-            <br/>
+            {{ $comment->value }}
 
-            <a href="{{route('bottle', ['bottle' => $bottling->bottle_id])}}">{{__('See')}}</a>
-            <br/>
+            <br/><br/>
 
         @endforeach
 

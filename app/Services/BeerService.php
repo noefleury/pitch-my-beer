@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Enums\FermenterType;
 use App\Models\Beer;
-use App\Models\Bottling;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
@@ -34,16 +33,25 @@ class BeerService
      *
      * @param   Beer  $beer
      *
-     * @return array{fermentation: array{id: int, wort_id: int, fermentation_id: int, fermenter_type: FermenterType, volume: float, created_at: Carbon}, keggings: array{array{id: int, volume:: float, beer_id: int, keg_id: int, created_at: Carbon}}, bottlings: array{array{id: int, beer_id: int, bottle_id: int, created_at: Carbon, deleted_at: Carbon}}}
+     * @return array
      */
     public function getRelationsData(Beer $beer): array
     {
         return [
             'fermentation' => $beer->fermentation()->first(),
-            'keggings'     => $beer->keggings()->get(),
-            'bottlings'    => $beer->bottlings()->get()->load('bottle:id,volume')->each(
-                fn(Bottling $bottling) => $bottling->bottle->withoutAppends()->makeHidden(['id']),
-            ),
+            'keggings'     => $beer->keggings()
+                ->get()
+                ->load('keg:id')
+                ->sortByDesc('volume')
+                ->sortBy('deleted_at')
+                ->values(),
+            'bottlings'    => $beer->bottlings()
+                ->get()
+                ->load('bottle:id,volume')
+                ->sortByDesc('bottle.volume')
+                ->sortBy('deleted_at')
+                ->values(),
+            'comments'     => $beer->comments()->get(),
         ];
     }
 

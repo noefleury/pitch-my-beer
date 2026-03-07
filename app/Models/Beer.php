@@ -56,12 +56,12 @@ class Beer extends Model
 
     public function keggings(): HasMany
     {
-        return $this->hasMany(Kegging::class);
+        return $this->hasMany(Kegging::class)->withTrashed();
     }
 
     public function bottlings(): HasMany
     {
-        return $this->hasMany(Bottling::class);
+        return $this->hasMany(Bottling::class)->withTrashed();
     }
 
     protected function isHomemade(): Attribute

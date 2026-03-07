@@ -9,6 +9,7 @@
     "keg": "keg|kegs",
     "tap": "tap|taps",
     "bottle": "bottle|bottles",
+    "Bottle": "Bottle",
     "Name": "Name",
     "volume": "volume",
     "co2": "CO2",
@@ -22,5 +23,7 @@
     "Yes": "Yes",
     "No": "No",
     "Keggings": "Keggings",
-    "Bottlings": "Bottlings"
+    "Bottlings": "Bottlings",
+    "Comments": "Comments",
+    "Available": "Available"
 }
