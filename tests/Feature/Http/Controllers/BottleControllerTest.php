@@ -31,4 +31,45 @@ class BottleControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_bottle()
+    {
+        $this->assertDatabaseCount('bottles', 1);
+
+        $this
+            ->post(
+                '/api/materials/bottles',
+                [
+                    'volume' => 123,
+                ],
+            )
+            ->assertCreated()
+            ->assertJsonIsArray()
+            ->assertJsonCount(1)
+            ->assertExactJsonStructure(['*' => ['id', 'uid']]);
+
+        $this->assertDatabaseCount('bottles', 2);
+        $this->assertDatabaseHas('bottles', ['volume' => 123]);
+    }
+
+    public function test_create_multiple_bottle()
+    {
+        $this->assertDatabaseCount('bottles', 1);
+
+        $this
+            ->post(
+                '/api/materials/bottles',
+                [
+                    'volume' => 220,
+                    'count'  => 3,
+                ],
+            )
+            ->assertCreated()
+            ->assertJsonIsArray()
+            ->assertJsonCount(3)
+            ->assertExactJsonStructure(['*' => ['id', 'uid']]);
+
+        $this->assertDatabaseCount('bottles', 4);
+        $this->assertDatabaseHas('bottles', ['volume' => 220]);
+    }
+
 }

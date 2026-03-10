@@ -45,6 +45,7 @@ Route::prefix('materials')
             ->controller(BottleController::class)
             ->group(function () {
                 Route::get('/{bottle}', 'show');
+                Route::post('/', 'create');
             });
     });
 

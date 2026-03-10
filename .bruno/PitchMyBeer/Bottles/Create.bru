@@ -1,0 +1,22 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{API_ENDPOINT}}/materials/bottles
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "volume": 330,
+    "count": 2
+  }
+}
+
+vars:pre-request {
+  id: 1
+}
