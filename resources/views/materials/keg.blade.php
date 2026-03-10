@@ -18,7 +18,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $keg->volume }} L
+    {{ \App\Helpers\Volume::getFormattedValue($keg->volume) }}
     <br/>
 
     <b>{{ __('Creation') }}</b>

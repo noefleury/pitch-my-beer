@@ -1,4 +1,4 @@
-@php use App\Enums\FermenterType; @endphp
+@php use App\Enums\FermenterType;use App\Helpers\Volume; @endphp
 <h1>{{ trans_choice('beer', 1) |> ucfirst(...) }}</h1>
 
 <a href="{{ route('beers') }}">
@@ -22,7 +22,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $beer->volume }} L
+    {{ Volume::getFormattedValue($beer->volume) }}
     <br/>
 
     <b>{{ __('ABV') }}</b>
@@ -52,7 +52,7 @@
         <br/>
 
         <b>{{ __('volume') |> ucfirst(...) }}</b>
-        {{ $relations->fermentation->volume }} L
+        {{ Volume::getFormattedValue($relations->fermentation->volume) }}
         <br/>
 
         <b>{{ __('Creation') }}</b>

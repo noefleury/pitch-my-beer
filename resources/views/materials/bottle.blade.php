@@ -14,7 +14,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $bottle->volume }} mL
+    {{ \App\Helpers\Volume::getFormattedValue($bottle->volume / 1000) }}
     <br/>
 
     <b>{{ __('Creation') }}</b>

@@ -1,3 +1,5 @@
+@php use App\Helpers\Volume; @endphp
+
 <h1>{{ trans_choice('material', 2) |> ucfirst(...) }}</h1>
 
 <a href="{{ route('home') }}">
@@ -14,7 +16,7 @@
                 <b>{{ __('Name') }}</b>
                 <span>{{ $fermenter->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
-                <span>{{ $fermenter->volume }} L</span>
+                <span>{{ Volume::getFormattedValue($fermenter->volume) }}</span>
                 <a href="{{route('fermenter', ['fermenter' => $fermenter->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
@@ -46,7 +48,7 @@
                 <b>{{ __('Name') }}</b>
                 <span>{{ $keg->name }}</span>
                 <b>{{ __('volume') |> ucfirst(...)  }}</b>
-                <span>{{ $keg->volume }} L</span>
+                <span>{{ Volume::getFormattedValue($keg->volume) }}</span>
                 <a href="{{route('keg', ['keg' => $keg->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach
@@ -74,7 +76,7 @@
         <div>
             @foreach($materialsByType['bottles'] as $bottle)
                 <b>{{ __('volume') |> ucfirst(...) }}</b>
-                <span>{{ $bottle->volume }} mL</span>
+                <span>{{ Volume::getFormattedValue($bottle->volume / 1000) }}</span>
                 <a href="{{route('bottle', ['bottle' => $bottle->id])}}">{{__('See')}}</a>
                 <br/>
             @endforeach

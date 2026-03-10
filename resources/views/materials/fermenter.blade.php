@@ -18,7 +18,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $fermenter->volume }} L
+    {{ \App\Helpers\Volume::getFormattedValue($fermenter->volume) }}
     <br/>
 
     <b>{{ __('Creation') }}</b>
@@ -32,7 +32,7 @@
         <h3>Current fermentation</h3>
 
         <b>{{ __('volume') |> ucfirst(...) }}</b>
-        {{ $currentFermentation->volume }} L
+        {{ \App\Helpers\Volume::getFormattedValue($currentFermentation->volume) }}
         <br/>
 
         <b>{{ __('Creation') }}</b>

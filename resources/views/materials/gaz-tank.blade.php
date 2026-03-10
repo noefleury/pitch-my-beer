@@ -18,7 +18,7 @@
     <br/>
 
     <b>{{ __('volume') |> ucfirst(...) }}</b>
-    {{ $gazTank->volume }} L
+    {{ \App\Helpers\Volume::getFormattedValue($gazTank->volume) }}
     <br/>
 
     <b>{{ __('co2') |> ucfirst(...) }}</b>

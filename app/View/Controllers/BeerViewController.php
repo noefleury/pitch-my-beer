@@ -2,6 +2,7 @@
 
 namespace App\View\Controllers;
 
+use App\Helpers\Volume;
 use App\Models\Beer;
 use App\Models\Bottling;
 use App\Models\Kegging;
@@ -42,7 +43,7 @@ class BeerViewController extends ViewController
         $keggingsRows = Table::buildTableRows(
             $beerRelations['keggings'],
             [
-                fn(Kegging $kegging) => $kegging->volume.' L',
+                fn(Kegging $kegging) => Volume::getFormattedValue($kegging->volume),
                 fn(Kegging $kegging) => $kegging->deleted_at ? __('No') : __('Yes'),
                 fn(Kegging $kegging) => $kegging->keg->uid,
             ],
@@ -51,7 +52,7 @@ class BeerViewController extends ViewController
         $bottlingsRows = Table::buildTableRows(
             $beerRelations['bottlings'],
             [
-                fn(Bottling $bottling) => $bottling->bottle->volume.' mL',
+                fn(Bottling $bottling) => Volume::getFormattedValue($bottling->bottle->volume / 1000),
                 fn(Bottling $bottling) => $bottling->deleted_at ? __('No') : __('Yes'),
                 fn(Bottling $bottling) => $bottling->bottle->uid,
             ],
