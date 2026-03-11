@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\TapType;
 use App\Models\Link;
 use App\Models\Tap;
 use Illuminate\Support\Collection;
@@ -12,6 +13,16 @@ class TapService
     public function show(Tap $tap): Tap
     {
         return $tap;
+    }
+
+    public function create(TapType $type, ?string $name = null)
+    {
+        $tap = Tap::query()->create([
+            'name' => $name,
+            'type' => $type,
+        ]);
+
+        return $tap->only(['id', 'uid']);
     }
 
     /**

@@ -1,0 +1,17 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{API_ENDPOINT}}/materials/gaz-tanks
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "volume": 3.0
+  }
+}

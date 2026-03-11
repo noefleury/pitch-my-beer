@@ -42,7 +42,7 @@ class GazTank extends Model
         'volume' => 'double',
     ];
 
-    protected $fillable = ['name', 'co2_percent', 'n2_percent'];
+    protected $fillable = ['name', 'volume', 'co2_percent', 'n2_percent'];
 
     public function links(): HasMany
     {

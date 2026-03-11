@@ -36,4 +36,30 @@ class GazTankControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_gaz_tank()
+    {
+        $this->assertDatabaseCount('gaz_tanks', 1);
+
+        $response = $this->post(
+            '/api/materials/gaz-tanks',
+            [
+                'volume'      => 4.5,
+                'co2_percent' => 70,
+                'name'        => 'dummy',
+            ],
+        );
+
+        $response
+            ->assertCreated()
+            ->assertExactJsonStructure(['id', 'uid']);
+
+        $gazTankId = $response->json('id');
+
+        $this->assertDatabaseCount('gaz_tanks', 2);
+        $this->assertDatabaseHas(
+            'gaz_tanks',
+            ['id' => $gazTankId, 'volume' => 4.5, 'co2_percent' => 70, 'n2_percent' => 30, 'name' => 'dummy'],
+        );
+    }
+
 }

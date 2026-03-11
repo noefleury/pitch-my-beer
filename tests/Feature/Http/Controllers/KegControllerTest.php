@@ -32,4 +32,26 @@ class KegControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_keg()
+    {
+        $this->assertDatabaseCount('kegs', 1);
+
+        $response = $this->post(
+            '/api/materials/kegs',
+            [
+                'volume' => 18.5,
+                'name'   => 'dummy',
+            ],
+        );
+
+        $response
+            ->assertCreated()
+            ->assertExactJsonStructure(['id', 'uid']);
+
+        $kegId = $response->json('id');
+
+        $this->assertDatabaseCount('kegs', 2);
+        $this->assertDatabaseHas('kegs', ['id' => $kegId, 'volume' => 18.5, 'name' => 'dummy']);
+    }
+
 }

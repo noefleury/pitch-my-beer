@@ -12,4 +12,15 @@ class GazTankService
         return $gazTank;
     }
 
+    public function create(float $volume, int $co2Percent, int $n2Percent, ?string $name = null)
+    {
+        $gazTank = GazTank::query()->create([
+            'name'        => $name,
+            'volume'      => $volume,
+            'co2_percent' => $co2Percent,
+            'n2_percent'  => $n2Percent,
+        ]);
+
+        return $gazTank->only(['id', 'uid']);
+    }
 }

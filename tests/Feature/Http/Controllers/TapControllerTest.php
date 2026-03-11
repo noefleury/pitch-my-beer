@@ -17,7 +17,6 @@ class TapControllerTest extends TestCase
     {
         parent::setUp();
         $this->tap = Tap::factory()->create();
-        $this->seed(LinkedBeerSeeder::class);
     }
 
     public function test_show_tap()
@@ -34,8 +33,32 @@ class TapControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_tap()
+    {
+        $this->assertDatabaseCount('taps', 1);
+
+        $response = $this->post(
+            '/api/materials/taps',
+            [
+                'type' => 'picnic',
+                'name' => 'dummy',
+            ],
+        );
+
+        $response
+            ->assertCreated()
+            ->assertExactJsonStructure(['id', 'uid']);
+
+        $tapId = $response->json('id');
+
+        $this->assertDatabaseCount('taps', 2);
+        $this->assertDatabaseHas('taps', ['id' => $tapId, 'type' => 'picnic', 'name' => 'dummy']);
+    }
+
     public function test_show_on_taps()
     {
+        $this->seed(LinkedBeerSeeder::class);
+
         $this->get('/api/on-taps')
             ->assertOk()
             ->assertExactJsonStructure([

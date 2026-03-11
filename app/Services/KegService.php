@@ -12,4 +12,14 @@ class KegService
         return $keg;
     }
 
+    public function create(float $volume, ?string $name = null)
+    {
+        $tap = Keg::query()->create([
+            'name'   => $name,
+            'volume' => $volume,
+        ]);
+
+        return $tap->only(['id', 'uid']);
+    }
+
 }

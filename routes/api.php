@@ -30,16 +30,19 @@ Route::prefix('materials')
             ->controller(GazTankController::class)
             ->group(function () {
                 Route::get('/{gazTank}', 'show');
+                Route::post('/', 'create');
             });
         Route::prefix('kegs')
             ->controller(KegController::class)
             ->group(function () {
                 Route::get('/{keg}', 'show');
+                Route::post('/', 'create');
             });
         Route::prefix('taps')
             ->controller(TapController::class)
             ->group(function () {
                 Route::get('/{tap}', 'show');
+                Route::post('/', 'create');
             });
         Route::prefix('bottles')
             ->controller(BottleController::class)
