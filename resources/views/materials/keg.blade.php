@@ -8,7 +8,7 @@
 
 <div id="keg">
 
-    <!-- keg-tank detail -->
+    <!-- keg detail -->
     <h2>{{ $keg->getUniqueIdentifier() }}</h2>
 
     <br/>
@@ -25,8 +25,26 @@
     {{ $keg->created_at->toDateString() }}
     <br/>
 
-    <!-- keg data -->
-    <!-- todo -->
+    <!-- relations data -->
+
+    @if($currentKegging = $relations->kegging)
+
+        <h3>{{ __('Current kegging') }}</h3>
+
+
+        <b>{{ __('Name') }}</b>
+        {{ $currentKegging->beer->name }}
+        <br/>
+
+        <b>{{ __('volume') |> ucfirst(...) }}</b>
+        {{ \App\Helpers\Volume::getFormattedValue($currentKegging->volume) }}
+        <br/>
+
+        <b>{{ __('Creation') }}</b>
+        {{ $currentKegging->created_at->toDateString() }}
+        <br/>
+
+    @endif
 
 
 </div>

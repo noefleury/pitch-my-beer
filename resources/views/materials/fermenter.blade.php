@@ -27,9 +27,9 @@
 
     <!-- relations data -->
 
-    @if($currentFermentation = $relations->current_fermentation)
+    @if($currentFermentation = $relations->fermentation)
 
-        <h3>Current fermentation</h3>
+        <h3>{{ __('Current fermentation') }}</h3>
 
         <b>{{ __('volume') |> ucfirst(...) }}</b>
         {{ \App\Helpers\Volume::getFormattedValue($currentFermentation->volume) }}

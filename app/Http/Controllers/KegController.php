@@ -24,6 +24,13 @@ class KegController extends Controller
         );
     }
 
+    public function getRelations(Keg $keg)
+    {
+        return $this->jsonResponse(
+            $this->kegService->getRelationsData($keg),
+        );
+    }
+
     public function create(Request $request)
     {
         $request->validate([

@@ -37,6 +37,7 @@ Route::prefix('materials')
             ->controller(KegController::class)
             ->group(function () {
                 Route::get('/{keg}', 'show');
+                Route::get('/{keg}/relations', 'getRelations');
                 Route::post('/', 'create');
             });
         Route::prefix('taps')

@@ -40,7 +40,7 @@ class FermenterControllerTest extends TestCase
         $this->get('/api/materials/fermenters/'.$this->fermenter->getKey().'/relations')
             ->assertOk()
             ->assertExactJsonStructure([
-                'current_fermentation' => [
+                'fermentation' => [
                     'id',
                     'volume',
                     'created_at',

@@ -18,12 +18,12 @@ class FermenterService
      *
      * @param   Fermenter  $fermenter
      *
-     * @return array{current_fermentation: array{id: int, volume: float, created_at: Carbon}}
+     * @return array{fermentation: array{id: int, volume: float, created_at: Carbon}}
      */
     public function getRelationsData(Fermenter $fermenter): array
     {
         return [
-            'current_fermentation' => $fermenter->fermentations()->latest('id')->first([
+            'fermentation' => $fermenter->fermentations()->latest('id')->first([
                 'id',
                 'volume',
                 'created_at',

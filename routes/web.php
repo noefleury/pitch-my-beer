@@ -43,7 +43,8 @@ Route::prefix('materials')->group(function () {
     })->name('gaz-tank');
     Route::get('/kegs/{keg}', function (Keg $keg, KegService $kegService) {
         return view('materials.keg', [
-            'keg' => $kegService->show($keg),
+            'keg'       => $kegService->show($keg),
+            'relations' => (object)$kegService->getRelationsData($keg),
         ]);
     })->name('keg');
     Route::get('/taps/{tap}', function (Tap $tap, TapService $tapService) {

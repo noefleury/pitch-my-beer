@@ -12,6 +12,27 @@ class KegService
         return $keg;
     }
 
+    /**
+     * Get relations data
+     *
+     * @param   Keg  $keg
+     *
+     * @return array
+     */
+    public function getRelationsData(Keg $keg): array
+    {
+        return [
+            'kegging'  => $keg->keggings()
+                ->with('beer:id,name,type,status')
+                ->first([
+                    'volume',
+                    'beer_id',
+                    'created_at',
+                ]),
+            'comments' => $keg->comments()->get(),
+        ];
+    }
+
     public function create(float $volume, ?string $name = null)
     {
         $tap = Keg::query()->create([

@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\KegController;
+use App\Models\Beer;
 use App\Models\Keg;
+use App\Models\Kegging;
 use Tests\TestCase;
 
 /**
@@ -29,6 +31,34 @@ class KegControllerTest extends TestCase
                 'volume',
                 'created_at',
                 'deleted_at',
+            ]);
+    }
+
+    public function test_show_beer_relations()
+    {
+        Kegging::factory()->for(Beer::factory())->for($this->keg)->create();
+        $this->get('/api/materials/kegs/'.$this->keg->getKey().'/relations')
+            ->assertOk()
+            ->assertExactJsonStructure([
+                'kegging'  => [
+                    'volume',
+                    'beer_id',
+                    'created_at',
+                    'beer' => [
+                        'id',
+                        'uid',
+                        'name',
+                        'type',
+                        'status',
+                        'is_homemade',
+                    ],
+                ],
+                'comments' => [
+                    '*' => [
+                        'value',
+                        'created_at',
+                    ],
+                ],
             ]);
     }
 
