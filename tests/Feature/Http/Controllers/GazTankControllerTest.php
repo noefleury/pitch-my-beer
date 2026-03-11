@@ -58,7 +58,7 @@ class GazTankControllerTest extends TestCase
         $this->assertDatabaseCount('gaz_tanks', 2);
         $this->assertDatabaseHas(
             'gaz_tanks',
-            ['id' => $gazTankId, 'volume' => 4.5, 'co2_percent' => 70, 'n2_percent' => 30, 'name' => 'dummy'],
+            ['id' => $gazTankId, 'volume' => 4.5, 'co2_percent' => 70, 'name' => 'dummy'],
         );
     }
 

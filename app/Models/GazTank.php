@@ -18,10 +18,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int          $id
  * @property ?string      $name
  * @property float        $volume
- * @property float        $co2_percent
- * @property float        $n2_percent
+ * @property int          $co2_percent
  * @property Carbon       $created_at
  * @property ?Carbon      $deleted_at
+ *
+ * @property-read  int    $n2_percent
+ * @see self::n2Percent()
  *
  * @property-read  string $blend
  * @see self::blend()
@@ -42,11 +44,26 @@ class GazTank extends Model
         'volume' => 'double',
     ];
 
-    protected $fillable = ['name', 'volume', 'co2_percent', 'n2_percent'];
+    protected $fillable = ['name', 'volume', 'co2_percent'];
+
+    protected $appends = [
+        'n2_percent',
+    ];
 
     public function links(): HasMany
     {
         return $this->hasMany(Link::class);
+    }
+
+    /**
+     * Get n2 percentage inside bottle
+     * @return Attribute
+     */
+    protected function n2Percent(): Attribute
+    {
+        return Attribute::make(
+            get: fn(mixed $value, array $attributes) => 100 - $attributes['co2_percent'],
+        );
     }
 
     /**

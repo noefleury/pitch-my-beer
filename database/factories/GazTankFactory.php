@@ -17,13 +17,10 @@ class GazTankFactory extends Factory
      */
     public function definition(): array
     {
-        $percent = $this->faker->randomFloat(0, 0, 100);
-
         return [
             'name'        => $this->faker->words(2, true),
             'volume'      => $this->faker->randomElement([3.0, 10.0, 13.0, 20.0, 40.0]),
-            'co2_percent' => $percent,
-            'n2_percent'  => 100.0 - $percent,
+            'co2_percent' => $this->faker->randomFloat(0, 0, 100),
         ];
     }
 }
