@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Beer;
+use App\Models\Bottling;
+
+class StatsService
+{
+
+    /**
+     * Compute some global stats
+     *
+     * @note scoped on beers which are ready (not fermenting, etc.)
+     *
+     * @return array
+     */
+    public function computeGlobalStats(): array
+    {
+        return [
+            'beers_drunk'          => Beer::consumed()->count(),
+            'beers_bought_drunk'   => Beer::consumed()->bought()->count(),
+            'beers_homemade_drunk' => Beer::consumed()->homemade()->count(),
+            'liters_drunk'         => (float)Beer::consumed()->sum('volume'),
+            'bottles_drunk'        => Bottling::onlyTrashed()->count(),
+        ];
+    }
+
+}

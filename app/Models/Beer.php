@@ -8,6 +8,8 @@ use App\Traits\Models\Commentable;
 use App\Traits\Models\HasUniqueIdentifier;
 use Carbon\Carbon;
 use Database\Factories\BeerFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +33,11 @@ use Tests\Feature\Models\BeerTest;
  * @see self::isHomemade()
  *
  * @see self::abv()
+ *
+ * @see self::consumed() scope
+ *
+ * @see self::homemade() scope
+ * @see self::bought() scope
  *
  * @see BeerFactory
  * @see BeerTest
@@ -105,4 +112,23 @@ class Beer extends Model
             },
         );
     }
+
+    #[Scope]
+    protected function consumed(Builder $query)
+    {
+        return $query->where('status', BeerStatus::Consumed);
+    }
+
+    #[Scope]
+    protected function homemade(Builder $query)
+    {
+        return $query->whereNotNull('fermentation_id');
+    }
+
+    #[Scope]
+    protected function bought(Builder $query)
+    {
+        return $query->whereNull('fermentation_id');
+    }
+
 }

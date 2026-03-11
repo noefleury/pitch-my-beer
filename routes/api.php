@@ -6,6 +6,7 @@ use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
 use App\Http\Controllers\KegController;
 use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TapController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,4 +65,10 @@ Route::prefix('on-taps')
     ->controller(TapController::class)
     ->group(function () {
         Route::get('/', 'getOnTaps');
+    });
+
+Route::prefix('stats')
+    ->controller(StatsController::class)
+    ->group(function () {
+        Route::get('/', 'computeGlobalStats');
     });
