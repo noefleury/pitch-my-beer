@@ -1,0 +1,22 @@
+meta {
+  name: Create
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{API_ENDPOINT}}/beers
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "dummy-beer",
+    "type": "lager",
+    //  "is_homemade": true
+    "is_homemade": false,
+    "volume": 19.5,
+    "abv": 4.12
+  }
+}

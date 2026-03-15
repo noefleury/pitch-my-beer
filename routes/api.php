@@ -60,6 +60,7 @@ Route::prefix('beers')
         Route::get('/', 'list');
         Route::get('/{beer}', 'get');
         Route::get('/{beer}/relations', 'getRelations');
+        Route::post('/', 'create');
     });
 
 Route::prefix('on-taps')

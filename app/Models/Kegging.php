@@ -32,7 +32,7 @@ class Kegging extends Model
 
     public const null UPDATED_AT = null;
 
-    protected $fillable = ['volume'];
+    protected $fillable = ['volume', 'keg_id'];
 
     protected $casts = [
         'volume' => 'double',

@@ -119,4 +119,62 @@ class BeerControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_homemade_beer()
+    {
+        $this->assertDatabaseCount('beers', 1);
+
+        $response = $this
+            ->post('/api/beers', [
+                'name'        => 'dummy beer',
+                'type'        => 'lager',
+                'is_homemade' => true,
+            ])
+            ->assertCreated();
+
+        $response
+            ->assertCreated()
+            ->assertExactJsonStructure(['id', 'uid']);
+
+        $beerId = $response->json('id');
+
+        $this->assertDatabaseCount('beers', 2);
+        $this->assertDatabaseHas('beers', ['id' => $beerId, 'status' => 'todo']);
+
+        // assert no auto-kegging as bought beer
+        $this->assertDatabaseEmpty('kegs');
+        $this->assertDatabaseEmpty('keggings');
+    }
+
+    public function test_create_bought_beer()
+    {
+        $this->assertDatabaseCount('beers', 1);
+        $this->assertDatabaseEmpty('kegs');
+        $this->assertDatabaseEmpty('keggings');
+
+        $response = $this
+            ->post('/api/beers', [
+                'name'        => 'dummy beer',
+                'type'        => 'lager',
+                'is_homemade' => false,
+                'volume'      => 20.0,
+                'abv'         => 4.5,
+            ])
+            ->assertCreated();
+
+        $response
+            ->assertCreated()
+            ->assertExactJsonStructure(['id', 'uid']);
+
+        $beerId = $response->json('id');
+
+        $this->assertDatabaseCount('beers', 2);
+        $this->assertDatabaseHas('beers', ['id' => $beerId, 'status' => 'ready']);
+
+        // assert auto-kegging as bought beer
+        $this->assertDatabaseCount('kegs', 1);
+        $this->assertDatabaseHas('kegs', ['name' => "auto-created-keg-beer-$beerId", 'volume' => 20.0]);
+        $this->assertDatabaseCount('keggings', 1);
+        $this->assertDatabaseHas('keggings', ['volume' => 20.0, 'keg_id' => Keg::query()->first()->getKey()]);
+    }
+
 }
