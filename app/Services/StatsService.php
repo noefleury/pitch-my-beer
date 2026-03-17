@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Beer;
 use App\Models\Bottling;
+use App\Models\Keg;
 
 class StatsService
 {
@@ -23,6 +24,14 @@ class StatsService
             'beers_homemade_drunk' => Beer::consumed()->homemade()->count(),
             'liters_drunk'         => (float)Beer::consumed()->sum('volume'),
             'bottles_drunk'        => Bottling::onlyTrashed()->count(),
+        ];
+    }
+
+    public function computeKegStats(Keg $keg): array
+    {
+        return [
+            'kegged_count'  => $keg->keggings()->withTrashed()->count(),
+            'kegged_liters' => (float)$keg->keggings()->withTrashed()->sum('volume'),
         ];
     }
 

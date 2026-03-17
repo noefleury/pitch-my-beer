@@ -3,6 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\StatsController;
+use App\Models\Beer;
+use App\Models\Keg;
+use App\Models\Kegging;
 use Carbon\Carbon;
 use Database\Seeders\Stats\GlobalStatsSeeder;
 use Tests\TestCase;
@@ -13,14 +16,10 @@ use Tests\TestCase;
 class StatsControllerTest extends TestCase
 {
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed(GlobalStatsSeeder::class);
-    }
-
     public function test_compute_global_stats()
     {
+        $this->seed(GlobalStatsSeeder::class);
+
         $this->get('/api/stats')
             ->assertOk()
             ->assertExactJson([
@@ -31,5 +30,25 @@ class StatsControllerTest extends TestCase
                 'bottles_drunk'        => 4,
             ]);
     }
+
+
+    public function test_compute_keg_stats()
+    {
+        $keg = Keg::factory()->create();
+        Kegging::factory()->for(Beer::factory())->for($keg)->create(['volume' => 12.5]);
+        Kegging::factory()->for(Beer::factory())->for($keg)->create(
+            [
+                'volume'     => 19.0,
+                'deleted_at' => Carbon::parse('2026-03-16 18:49'),
+            ]
+        );
+        $this->get('/api/stats/kegs/'.$keg->getKey())
+            ->assertOk()
+            ->assertExactJson([
+                'kegged_count'  => 2,
+                'kegged_liters' => 31.5,
+            ]);
+    }
+
 
 }

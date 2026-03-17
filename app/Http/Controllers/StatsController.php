@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Keg;
 use App\Services\StatsService;
 use Tests\Feature\Http\Controllers\StatsControllerTest;
 
@@ -19,6 +20,13 @@ class StatsController extends Controller
     {
         return $this->jsonResponse(
             $this->statsService->computeGlobalStats(),
+        );
+    }
+
+    public function computeKegStats(Keg $keg)
+    {
+        return $this->jsonResponse(
+            $this->statsService->computeKegStats($keg),
         );
     }
 

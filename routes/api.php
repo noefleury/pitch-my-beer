@@ -73,4 +73,5 @@ Route::prefix('stats')
     ->controller(StatsController::class)
     ->group(function () {
         Route::get('/', 'computeGlobalStats');
+        Route::get('/kegs/{keg}', 'computeKegStats');
     });

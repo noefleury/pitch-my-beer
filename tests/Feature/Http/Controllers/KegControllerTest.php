@@ -34,7 +34,7 @@ class KegControllerTest extends TestCase
             ]);
     }
 
-    public function test_show_beer_relations()
+    public function test_show_keg_relations()
     {
         Kegging::factory()->for(Beer::factory())->for($this->keg)->create();
         $this->get('/api/materials/kegs/'.$this->keg->getKey().'/relations')
