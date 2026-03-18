@@ -32,6 +32,9 @@ class Fermentation extends Model
     public const null UPDATED_AT = null;
 
     protected $fillable = [
+        'wort_id',
+        'fermenter_id',
+        'fermenter_type',
         'volume',
     ];
 

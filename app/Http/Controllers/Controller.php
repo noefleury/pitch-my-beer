@@ -13,8 +13,12 @@ abstract class Controller extends \Illuminate\Routing\Controller
         return response()->json($data, $httpCode);
     }
 
-    protected function jsonCreatedResponse(int|array $data)
+    protected function jsonCreatedResponse(int|array|null $data = null)
     {
+        if (is_null($data)) {
+            return response(status: 201);
+        }
+
         return response()->json($data, 201);
     }
 }

@@ -1,0 +1,20 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{API_ENDPOINT}}/fermentations
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "wort_id": 1,
+    "fermenter_id": 1,
+    "fermenter_type": "fermenter",
+    "volume": 20
+  }
+}

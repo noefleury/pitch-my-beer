@@ -44,7 +44,7 @@ class BeerController extends Controller
             'name'        => 'required|string|min:3',
             'type'        => 'required|string|min:3',
             'is_homemade' => 'required|boolean',
-            'volume'      => 'required_if:is_homemade,false|missing_if:is_homemade,true|decimal:0,2',
+            'volume'      => 'required_if:is_homemade,false|decimal:0,2',
             'abv'         => 'required_if:is_homemade,false|missing_if:is_homemade,true|decimal:0,2',
         ]);
 

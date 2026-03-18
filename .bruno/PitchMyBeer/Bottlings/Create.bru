@@ -1,0 +1,22 @@
+meta {
+  name: Create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{API_ENDPOINT}}/bottlings
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "beer_id": 1,
+    "bottle_ids": [
+      1,
+      2,
+      3
+    ]
+  }
+}

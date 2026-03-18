@@ -48,4 +48,9 @@ class FermenterControllerTest extends TestCase
             ]);
     }
 
+    public function test_create_fermenter()
+    {
+        $this->markTestIncomplete('todo');
+    }
+
 }

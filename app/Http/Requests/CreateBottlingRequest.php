@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use App\Enums\BeerStatus;
 use App\Models\Beer;
+use App\Models\Bottle;
 use App\Models\Keg;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
-class CreateKeggingRequest extends FormRequest
+class CreateBottlingRequest extends FormRequest
 {
 
     /**
@@ -21,9 +22,9 @@ class CreateKeggingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'volume'  => 'required|decimal:0,2|min:0.5',
-            'beer_id' => ['required', 'integer', Rule::exists('beers', 'id')],
-            'keg_id'  => ['required', 'integer', Rule::exists('kegs', 'id')->withoutTrashed()],
+            'beer_id'      => ['required', 'integer', Rule::exists('beers', 'id')],
+            'bottle_ids'   => ['required', 'array'],
+            'bottle_ids.*' => ['required', 'integer', Rule::exists('bottles', 'id')],
         ];
     }
 
@@ -32,32 +33,26 @@ class CreateKeggingRequest extends FormRequest
      */
     public function after(): array
     {
-        $volume = $this->float('volume');
-        $beer   = Beer::query()->findOrFail($this->integer('beer_id'));
-        $keg    = Keg::query()->findOrFail($this->integer('keg_id'));
+        $beer         = Beer::query()->findOrFail($this->integer('beer_id'));
+        $bottlesQuery = Bottle::query()->whereIn('id', $this->array('bottle_ids'));
 
         return [
-            function (Validator $validator) use ($volume, $beer, $keg) {
+            function (Validator $validator) use ($beer, $bottlesQuery) {
                 if ($beer->status === BeerStatus::Consumed) { // maybe adapt this
                     $validator->errors()->add(
                         'beer',
                         'The given beer is already consumed'
                     );
                 }
-                if ($keg->keggings()->exists()) { // maybe add force mode
+                if ($bottlesQuery->has('bottlings')) {
                     $validator->errors()->add(
-                        'keg',
-                        'The given keg is already kegged'
+                        'bottle_ids',
+                        'The given bottles contain one which is already bottled'
                     );
                 }
-                if ($keg->volume < $volume) {
-                    $validator->errors()->add(
-                        'volume',
-                        'This volume cannot be filled in given keg'
-                    );
-                }
+                // maybe adapt to handle little more
                 // todo should check what is already consumed from beer
-                if ((float)$beer->keggings()->sum('volume') + $volume > $beer->volume) {
+                if ((float)$bottlesQuery->sum('volume') > $beer->volume) {
                     $validator->errors()->add(
                         'volume',
                         'This volume cannot be taken from the given beer'

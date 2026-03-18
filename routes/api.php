@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BeerController;
 use App\Http\Controllers\BottleController;
+use App\Http\Controllers\BottlingController;
+use App\Http\Controllers\FermentationController;
 use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
 use App\Http\Controllers\KegController;
@@ -27,6 +29,7 @@ Route::prefix('materials')
             ->group(function () {
                 Route::get('/{fermenter}', 'show');
                 Route::get('/{fermenter}/relations', 'getRelations');
+                Route::post('/', 'create');
             });
         Route::prefix('gaz-tanks')
             ->controller(GazTankController::class)
@@ -77,9 +80,20 @@ Route::prefix('stats')
         Route::get('/kegs/{keg}', 'computeKegStats');
     });
 
-
 Route::prefix('keggings')
     ->controller(KeggingController::class)
+    ->group(function () {
+        Route::post('/', 'create');
+    });
+
+Route::prefix('bottlings')
+    ->controller(BottlingController::class)
+    ->group(function () {
+        Route::post('/', 'create');
+    });
+
+Route::prefix('fermentations')
+    ->controller(FermentationController::class)
     ->group(function () {
         Route::post('/', 'create');
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fermenter;
 use App\Services\FermenterService;
+use Illuminate\Http\Request;
 use Tests\Feature\Http\Controllers\FermenterControllerTest;
 
 /**
@@ -27,6 +28,21 @@ class FermenterController extends Controller
     {
         return $this->jsonResponse(
             $this->fermenterService->getRelationsData($fermenter),
+        );
+    }
+
+    public function create(Request $request)
+    {
+        $request->validate([
+            'volume' => 'required|decimal:0,2',
+            'name'   => 'string|alpha_dash|min:3',
+        ]);
+
+        return $this->jsonCreatedResponse(
+            $this->fermenterService->create(
+                $request->integer('volume'),
+                $request->string('name'),
+            ),
         );
     }
 }

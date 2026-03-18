@@ -30,6 +30,8 @@ class Bottling extends Model
 
     public const null UPDATED_AT = null;
 
+    protected $fillable = ['beer_id', 'bottle_id'];
+
     public function beer(): BelongsTo
     {
         return $this->belongsTo(Beer::class);

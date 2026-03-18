@@ -31,4 +31,21 @@ class FermenterService
         ];
     }
 
+    /**
+     * Create fermenter
+     *
+     * @param   float        $volume
+     * @param   string|null  $name
+     *
+     * @return array
+     */
+    public function create(float $volume, ?string $name = null): array
+    {
+        $fermenter = Fermenter::query()->create([
+            'volume' => $volume,
+            'name'   => $name,
+        ]);
+
+        return $fermenter->only(['id', 'uid']);
+    }
 }
