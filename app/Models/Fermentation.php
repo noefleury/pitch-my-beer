@@ -53,6 +53,8 @@ class Fermentation extends Model
      * @note can be a fermenter or a keg
      *
      * @return MorphTo
+     * @see  FermenterType
+     *
      */
     public function fermenter(): MorphTo
     {

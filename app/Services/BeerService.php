@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\BeerStatus;
 use App\Models\Beer;
 use App\Models\Keg;
+use App\Models\Kegging;
 use Illuminate\Database\Eloquent\Collection;
 
 class BeerService
@@ -45,7 +46,13 @@ class BeerService
                 ->load('keg:id')
                 ->sortByDesc('volume')
                 ->sortBy('deleted_at')
+                ->makeHidden(['kegged_id', 'kegged_type'])
                 ->values(),
+            'transfers'    => $beer->keggings()
+                ->get()
+                ->map(fn(Kegging $kegging) => $kegging->transfers(true))
+                ->flatten()
+                ->map(fn(Kegging $kegging) => $kegging->makeHidden(['kegged_id', 'kegged_type'])),
             'bottlings'    => $beer->bottlings()
                 ->get()
                 ->load('bottle:id,volume')

@@ -36,24 +36,23 @@ class KegControllerTest extends TestCase
 
     public function test_show_keg_relations()
     {
-        Kegging::factory()->for(Beer::factory())->for($this->keg)->create();
+        Kegging::factory()->for(Beer::factory(), 'kegged')->for($this->keg)->create();
         $this->get('/api/materials/kegs/'.$this->keg->getKey().'/relations')
             ->assertOk()
             ->assertExactJsonStructure([
-                'kegging'  => [
+                'kegging'     => [
                     'volume',
-                    'beer_id',
                     'created_at',
-                    'beer' => [
-                        'id',
-                        'uid',
-                        'name',
-                        'type',
-                        'status',
-                        'is_homemade',
-                    ],
                 ],
-                'comments' => [
+                'kegged_beer' => [
+                    'id',
+                    'uid',
+                    'name',
+                    'type',
+                    'status',
+                    'is_homemade',
+                ],
+                'comments'    => [
                     '*' => [
                         'value',
                         'created_at',

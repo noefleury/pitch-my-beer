@@ -33,7 +33,7 @@
 
 
         <b>{{ __('Name') }}</b>
-        {{ $currentKegging->beer->name }}
+        {{ $relations->kegged_beer->name }}
         <br/>
 
         <b>{{ __('volume') |> ucfirst(...) }}</b>

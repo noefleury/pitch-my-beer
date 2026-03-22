@@ -22,6 +22,7 @@ class BeerFactory extends Factory
             'name'   => $this->faker->words(2, true),
             'type'   => $this->faker->randomElement(['Pale Ale', 'Lager']),
             'volume' => $this->faker->randomFloat(1, 5.0, 20.0),
+            'abv'    => $this->faker->randomFloat('2', 3.5, 15.0),
             'status' => $this->faker->randomElement(BeerStatus::cases()),
         ];
     }

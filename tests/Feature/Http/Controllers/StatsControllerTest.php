@@ -35,8 +35,8 @@ class StatsControllerTest extends TestCase
     public function test_compute_keg_stats()
     {
         $keg = Keg::factory()->create();
-        Kegging::factory()->for(Beer::factory())->for($keg)->create(['volume' => 12.5]);
-        Kegging::factory()->for(Beer::factory())->for($keg)->create(
+        Kegging::factory()->for(Beer::factory(), 'kegged')->for($keg)->create(['volume' => 12.5]);
+        Kegging::factory()->for(Beer::factory(), 'kegged')->for($keg)->create(
             [
                 'volume'     => 19.0,
                 'deleted_at' => Carbon::parse('2026-03-16 18:49'),

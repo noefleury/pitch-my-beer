@@ -44,7 +44,7 @@ class CreateBottlingRequest extends FormRequest
                         'The given beer is already consumed'
                     );
                 }
-                if ($bottlesQuery->has('bottlings')) {
+                if ($bottlesQuery->has('bottlings')->exists()) {
                     $validator->errors()->add(
                         'bottle_ids',
                         'The given bottles contain one which is already bottled'

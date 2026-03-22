@@ -42,7 +42,7 @@ class LinkedBeerSeeder extends Seeder
         Comment::factory()->for($beer, 'entity')->create();
 
         // put it in keg
-        $kegging = Kegging::factory()->for($beer)->for($keg)->create();
+        $kegging = Kegging::factory()->for($beer, 'kegged')->for($keg)->create();
 
         // link it
         Link::factory()->for($kegging)->for($gazTank)->for($tap)->create();

@@ -46,6 +46,19 @@ class BeerViewController extends ViewController
                 fn(Kegging $kegging) => Volume::getFormattedValue($kegging->volume),
                 fn(Kegging $kegging) => $kegging->deleted_at ? __('No') : __('Yes'),
                 fn(Kegging $kegging) => $kegging->keg->uid,
+                'created_at',
+            ],
+        );
+
+        // maybe merge with 'keggings'
+        $transfersRows = Table::buildTableRows(
+            $beerRelations['transfers'],
+            [
+                fn(Kegging $kegging) => Volume::getFormattedValue($kegging->volume),
+                fn(Kegging $kegging) => $kegging->deleted_at ? __('No') : __('Yes'),
+                fn(Kegging $kegging) => $kegging->keg->uid,
+                fn(Kegging $kegging) => $kegging->kegged->keg->uid,
+                'created_at',
             ],
         );
 
@@ -61,8 +74,10 @@ class BeerViewController extends ViewController
         return view('beers.beer', [
             'beer'             => $beer,
             'relations'        => (object)$beerService->getRelationsData($beer),
-            'keggingsHeaders'  => ['Volume', 'Available', 'Keg'],
+            'keggingsHeaders'  => ['Volume', 'Available', 'Keg', 'Date'],
             'keggingsRows'     => $keggingsRows,
+            'transfersHeaders' => ['Volume', 'Available', 'Keg', 'From', 'Date'],
+            'transfersRows'    => $transfersRows,
             'bottlingsHeaders' => ['Volume', 'Available', 'Bottle'],
             'bottlingsRows'    => $bottlingsRows,
         ]);

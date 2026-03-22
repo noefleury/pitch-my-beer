@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\FermenterType;
+use App\Enums\KeggedType;
 use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Fermentation;
@@ -36,6 +37,12 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap([
             FermenterType::Fermenter->value => Fermenter::class,
             FermenterType::Keg->value       => Keg::class,
+        ]);
+
+        // useful for Kegging polymorphism
+        Relation::enforceMorphMap([
+            KeggedType::Beer->value    => Beer::class,
+            KeggedType::Kegging->value => Kegging::class,
         ]);
 
         // useful for Commentable Trait polymorphism

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\KeggedType;
 use App\Models\Kegging;
 
 class KeggingService
@@ -10,9 +11,10 @@ class KeggingService
     public function create(float $volume, int $beerId, int $kegId): array
     {
         $kegging = Kegging::query()->create([
-            'volume'  => $volume,
-            'beer_id' => $beerId,
-            'keg_id'  => $kegId,
+            'volume'      => $volume,
+            'kegged_id'   => $beerId,
+            'kegged_type' => KeggedType::Beer,
+            'keg_id'      => $kegId,
         ]);
 
         return $kegging->only(['id']);

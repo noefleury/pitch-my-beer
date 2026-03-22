@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             LinkedBeerSeeder::class,
             FermentingBeerInKegSeeder::class,
             BottledBeerSeeder::class,
+            KeggingTransferSeeder::class,
         ]);
     }
 }

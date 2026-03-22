@@ -68,7 +68,7 @@ class BeerControllerTest extends TestCase
 
     public function test_show_beer_relations()
     {
-        Kegging::factory()->for($this->beer)->for(Keg::factory())->create();
+        Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
         Bottling::factory()->for($this->beer)->for(Bottle::factory())->create();
         $this->get('/api/beers/'.$this->beer->getKey().'/relations')
             ->assertOk()
@@ -85,7 +85,6 @@ class BeerControllerTest extends TestCase
                     '*' => [
                         'id',
                         'volume',
-                        'beer_id',
                         'keg_id',
                         'created_at',
                         'deleted_at',
@@ -94,7 +93,19 @@ class BeerControllerTest extends TestCase
                             'uid',
                         ],
                     ],
-
+                ],
+                'transfers'    => [
+                    '*' => [
+                        'id',
+                        'volume',
+                        'keg_id',
+                        'created_at',
+                        'deleted_at',
+                        'keg' => [
+                            'id',
+                            'uid',
+                        ],
+                    ],
                 ],
                 'bottlings'    => [
                     '*' => [

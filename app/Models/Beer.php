@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Tests\Feature\Models\BeerTest;
 
 /**
@@ -72,9 +73,9 @@ class Beer extends Model
         return $this->belongsTo(Fermentation::class);
     }
 
-    public function keggings(): HasMany
+    public function keggings(): MorphMany
     {
-        return $this->hasMany(Kegging::class)->withTrashed();
+        return $this->morphMany(Kegging::class, 'kegged')->withTrashed();
     }
 
     public function bottlings(): HasMany

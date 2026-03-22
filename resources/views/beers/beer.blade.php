@@ -68,33 +68,38 @@
 
     @endif
 
-    @if($beer->keggings->isNotEmpty())
+    @if($relations->keggings->isNotEmpty())
 
         <h3>{{ __('Keggings') }}</h3>
-
-        <span>{{ $beer->keggings->first()->created_at->toDateString() }}</span>
-        <br/><br/>
 
         <x-table :headers="$keggingsHeaders" :rows="$keggingsRows"></x-table>
 
     @endif
 
-    @if($beer->bottlings->isNotEmpty())
+    @if($relations->transfers->isNotEmpty())
+
+        <h3>{{ __('Transfers') }}</h3>
+
+        <x-table :headers="$transfersHeaders" :rows="$transfersRows"></x-table>
+
+    @endif
+
+    @if($relations->bottlings->isNotEmpty())
 
         <h3>{{ __('Bottlings') }}</h3>
 
-        <span>{{ $beer->bottlings->first()->created_at->toDateString() }}</span>
+        <span>{{ $relations->bottlings->first()->created_at->toDateString() }}</span>
         <br/><br/>
 
         <x-table :headers="$bottlingsHeaders" :rows="$bottlingsRows"></x-table>
 
     @endif
 
-    @if($beer->comments->isNotEmpty())
+    @if($relations->comments->isNotEmpty())
 
         <h3>{{ __('Comments') }}</h3>
 
-        @foreach($beer->comments as $comment)
+        @foreach($relations->comments as $comment)
 
             <b>{{ $comment->created_at->toDateString() }}</b>
 

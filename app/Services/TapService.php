@@ -31,14 +31,14 @@ class TapService
     public function getOnTaps(): Collection
     {
         return Link::query()
-            ->with(['kegging.beer', 'gazTank', 'tap'])
+            ->with(['kegging.kegged', 'gazTank', 'tap'])
             ->get()
             ->map(function (Link $link) {
                 return (object)[
                     'id'          => $link->getKey(),
-                    'beer_id'     => $link->kegging->beer->getKey(),
-                    'beer_type'   => $link->kegging->beer->type,
-                    'beer_name'   => $link->kegging->beer->name,
+                    'beer_id'     => $link->kegging->beer()->getKey(),
+                    'beer_type'   => $link->kegging->beer()->type,
+                    'beer_name'   => $link->kegging->beer()->name,
                     'gaz_tank_id' => $link->gazTank->getKey(),
                     'gaz_blend'   => $link->gazTank->blend,
                     'tap_id'      => $link->tap->getKey(),

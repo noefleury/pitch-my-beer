@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Beer;
 use App\Models\Keg;
 
 class KegService
@@ -22,14 +23,20 @@ class KegService
     public function getRelationsData(Keg $keg): array
     {
         return [
-            'kegging'  => $keg->keggings()
-                ->with('beer:id,name,type,status')
+            'kegging'     => $keg->keggings()
                 ->first([
                     'volume',
-                    'beer_id',
                     'created_at',
                 ]),
-            'comments' => $keg->comments()->get(),
+            'kegged_beer' => (object)$keg->keggings()->first()?->beer()->only([
+                'id',
+                'uid',
+                'name',
+                'type',
+                'status',
+                'is_homemade',
+            ]),
+            'comments'    => $keg->comments()->get(),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\BeerStatus;
+use App\Enums\KeggedType;
 use App\Http\Controllers\KeggingController;
 use App\Models\Beer;
 use App\Models\Keg;
@@ -21,7 +22,9 @@ class KeggingControllerTest extends TestCase
         $this->beer = Beer::factory()->create(['volume' => 10.0, 'status' => BeerStatus::Fermenting]);
         $this->keg  = Keg::factory()->create(['volume' => 5.0]);
         // already kegged 5L in some keg
-        Kegging::factory()->for($this->beer)->for(Keg::factory()->create(['volume' => 5.0]))->create(['volume' => 5.0]);
+        Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory()->create(['volume' => 5.0]))->create(
+            ['volume' => 5.0]
+        );
     }
 
     public function test_create_validation_beer_already_consumed()
@@ -42,7 +45,7 @@ class KeggingControllerTest extends TestCase
 
     public function test_create_validation_keg_already_kegged()
     {
-        Kegging::factory()->for(Beer::factory(['status' => BeerStatus::Fermenting]))->for($this->keg)->create();
+        Kegging::factory()->for(Beer::factory(['status' => BeerStatus::Fermenting]), 'kegged')->for($this->keg)->create();
 
         $this
             ->postJson('/api/keggings', [
@@ -96,9 +99,10 @@ class KeggingControllerTest extends TestCase
 
         $this->assertDatabaseCount('keggings', 2);
         $this->assertDatabaseHas('keggings', [
-            'volume'  => 5.0,
-            'beer_id' => $this->beer->getKey(),
-            'keg_id'  => $this->keg->getKey(),
+            'volume'      => 5.0,
+            'kegged_id'   => $this->beer->getKey(),
+            'kegged_type' => 'beer',
+            'keg_id'      => $this->keg->getKey(),
         ]);
     }
 
