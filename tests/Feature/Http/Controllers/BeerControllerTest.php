@@ -68,8 +68,10 @@ class BeerControllerTest extends TestCase
 
     public function test_show_beer_relations()
     {
-        Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
+        $kegging = Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
+        Kegging::factory()->for($kegging, 'kegged')->for(Keg::factory())->create();  // transfer
         Bottling::factory()->for($this->beer)->for(Bottle::factory())->create();
+
         $this->get('/api/beers/'.$this->beer->getKey().'/relations')
             ->assertOk()
             ->assertExactJsonStructure([
@@ -82,7 +84,7 @@ class BeerControllerTest extends TestCase
                     'created_at',
                 ],
                 'keggings'     => [
-                    '*' => [
+                    0 => [
                         'id',
                         'volume',
                         'keg_id',
@@ -95,20 +97,30 @@ class BeerControllerTest extends TestCase
                     ],
                 ],
                 'transfers'    => [
-                    '*' => [
+                    0 => [
                         'id',
                         'volume',
                         'keg_id',
                         'created_at',
                         'deleted_at',
-                        'keg' => [
+                        'keg'    => [
                             'id',
                             'uid',
+                        ],
+                        'kegged' => [
+                            'volume',
+                            'keg_id',
+                            'created_at',
+                            'deleted_at',
+                            'keg' => [
+                                'id',
+                                'uid',
+                            ],
                         ],
                     ],
                 ],
                 'bottlings'    => [
-                    '*' => [
+                    0 => [
                         'id',
                         'beer_id',
                         'bottle_id',
@@ -122,7 +134,7 @@ class BeerControllerTest extends TestCase
                     ],
                 ],
                 'comments'     => [
-                    '*' => [
+                    0 => [
                         'value',
                         'created_at',
                     ],

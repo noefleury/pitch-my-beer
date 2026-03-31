@@ -50,7 +50,7 @@ class Kegging extends Model
      */
     public function kegged(): BelongsTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     public function keggings(): MorphMany
@@ -98,7 +98,7 @@ class Kegging extends Model
         $this->keggings()
             ->with('keg:id')
             ->each(function (Kegging $kegging) use (&$transfers, $recursive) {
-                $kegging->load('kegged.keg');
+                $kegging->load('kegged.keg:id');
                 $transfers[] = $kegging;
                 if ($recursive) {
                     array_push($transfers, ...$kegging->transfers());

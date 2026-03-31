@@ -52,7 +52,11 @@ class BeerService
                 ->get()
                 ->map(fn(Kegging $kegging) => $kegging->transfers(true))
                 ->flatten()
-                ->map(fn(Kegging $kegging) => $kegging->makeHidden(['kegged_id', 'kegged_type'])),
+                ->map(function (Kegging $kegging) {
+                    $kegging->kegged->makeHidden(['id', 'kegged_id', 'kegged_type']);
+
+                    return $kegging->makeHidden(['kegged_id', 'kegged_type']);
+                }),
             'bottlings'    => $beer->bottlings()
                 ->get()
                 ->load('bottle:id,volume')
