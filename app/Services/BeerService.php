@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Enums\BeerStatus;
+use App\Enums\FermenterType;
 use App\Models\Beer;
 use App\Models\Keg;
 use App\Models\Kegging;
+use App\Models\Wort;
 use Illuminate\Database\Eloquent\Collection;
 
 class BeerService
@@ -67,32 +69,37 @@ class BeerService
         ];
     }
 
-    public function create(string $name, string $type, bool $isHomemade, ?float $volume, ?float $abv): array
+    public function createHomemade(
+        string $name,
+        string $type,
+        float $volume,
+        FermenterType $fermenterType,
+        int $fermenterId,
+        float $ogGravity,
+    ): Beer {
+        $fermentation = app(FermentationService::class)->create($fermenterId, $fermenterType, $volume);
+        $fermentation->gravities()->create(['value' => $ogGravity]);
+
+        return Beer::query()->create([
+            'name'            => $name,
+            'type'            => $type,
+            'volume'          => $volume,
+            'fermentation_id' => $fermentation->getKey(),
+            'status'          => BeerStatus::ToDo,
+        ]);
+    }
+
+    public function createBought(string $name, string $type, float $volume, float $abv): Beer
     {
         $beer = Beer::query()->create([
             'name'   => $name,
             'type'   => $type,
             'volume' => $volume,
             'abv'    => $abv,
-            'status' => $isHomemade ? BeerStatus::ToDo : BeerStatus::Ready,
+            'status' => BeerStatus::Ready,
         ]);
 
-        if (!$isHomemade) {
-            $this->autoHandleBoughtBeerToKeg($beer);
-        }
-
-        return $beer->only(['id', 'uid']);
-    }
-
-    /**
-     * This method will automatically create keg linked to bought beer then keg beer inside it
-     *
-     * @param   Beer  $beer
-     *
-     * @return void
-     */
-    private function autoHandleBoughtBeerToKeg(Beer $beer): void
-    {
+        // automatically create keg linked to bought beer then keg beer inside it
         $beer->keggings()->create([
             'volume' => $beer->volume,
             'keg_id' => Keg::query()->create([
@@ -100,6 +107,8 @@ class BeerService
                 'volume' => $beer->volume,
             ])->getKey(),
         ]);
+
+        return $beer;
     }
 
 }

@@ -1,0 +1,23 @@
+meta {
+  name: Create homemade
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{API_ENDPOINT}}/beers
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "dummy-beer",
+    "type": "ale",
+    "is_homemade": true,
+    "volume": 19.5,
+    "fermenter_id": 1,
+    "fermenter_type": "fermenter",
+    "og_gravity": 1.045
+  }
+}

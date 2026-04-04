@@ -9,16 +9,14 @@ use App\Models\Wort;
 class FermentationService
 {
 
-    public function create(int $fermenterId, FermenterType $fermenterType, float $volume): true
+    public function create(int $fermenterId, FermenterType $fermenterType, float $volume): Fermentation
     {
-        Fermentation::query()->create([
+        return Fermentation::query()->create([
             'wort_id'        => Wort::query()->create()->getKey(),
             'fermenter_id'   => $fermenterId,
             'fermenter_type' => $fermenterType,
             'volume'         => $volume,
         ]);
-
-        return true;
     }
 
 }

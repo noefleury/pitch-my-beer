@@ -52,7 +52,7 @@ class Beer extends Model
 
     public const null UPDATED_AT = null;
 
-    protected $fillable = ['name', 'type', 'volume', 'abv', 'status'];
+    protected $fillable = ['name', 'type', 'volume', 'fermentation_id', 'abv', 'status'];
 
     protected $casts = [
         'volume' => 'double',

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\FermenterType;
+use App\Http\Requests\CreateBeerRequest;
 use App\Models\Beer;
 use App\Services\BeerService;
 use Illuminate\Http\Request;
@@ -38,24 +40,28 @@ class BeerController extends Controller
         );
     }
 
-    public function create(Request $request)
+    public function create(CreateBeerRequest $request)
     {
-        $request->validate([
-            'name'        => 'required|string|min:3',
-            'type'        => 'required|string|min:3',
-            'is_homemade' => 'required|boolean',
-            'volume'      => 'required_if:is_homemade,false|decimal:0,2',
-            'abv'         => 'required_if:is_homemade,false|missing_if:is_homemade,true|decimal:0,2',
-        ]);
-
-        return $this->jsonCreatedResponse(
-            $this->beerService->create(
+        if ($request->boolean('is_homemade')) {
+            $beer = $this->beerService->createHomemade(
                 $request->string('name'),
                 $request->string('type'),
-                $request->boolean('is_homemade'),
-                $request->has('volume') ? $request->float('volume') : null,
-                $request->has('abv') ? $request->float('abv') : null,
-            ),
+                $request->float('volume'),
+                $request->enum('fermenter_type', FermenterType::class),
+                $request->integer('fermenter_id'),
+                $request->float('og_gravity'),
+            );
+        } else {
+            $beer = $this->beerService->createBought(
+                $request->string('name'),
+                $request->string('type'),
+                $request->float('volume'),
+                $request->float('abv'),
+            );
+        }
+
+        return $this->jsonCreatedResponse(
+            $beer->only(['id', 'uid']),
         );
     }
 }
