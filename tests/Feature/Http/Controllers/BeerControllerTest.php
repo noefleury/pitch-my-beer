@@ -130,6 +130,7 @@ class BeerControllerTest extends TestCase
                         'bottle_id',
                         'created_at',
                         'deleted_at',
+                        'guarding_days',
                         'bottle' => [
                             'id',
                             'uid',

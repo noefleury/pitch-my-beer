@@ -16,6 +16,13 @@ class BottlingController extends Controller
     {
     }
 
+    public function list()
+    {
+        return $this->jsonResponse(
+            $this->bottlingService->list(),
+        );
+    }
+
     public function create(CreateBottlingRequest $request)
     {
         $this->bottlingService->create(

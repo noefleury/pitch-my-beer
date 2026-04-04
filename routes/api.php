@@ -89,6 +89,7 @@ Route::prefix('keggings')
 Route::prefix('bottlings')
     ->controller(BottlingController::class)
     ->group(function () {
+        Route::get('/', 'list');
         Route::post('/', 'create');
     });
 

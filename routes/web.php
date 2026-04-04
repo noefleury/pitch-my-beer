@@ -12,6 +12,7 @@ use App\Services\KegService;
 use App\Services\MaterialService;
 use App\Services\TapService;
 use App\View\Controllers\BeerViewController;
+use App\View\Controllers\BottlingViewController;
 use App\View\Controllers\TapViewController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,4 +67,8 @@ Route::prefix('beers')->controller(BeerViewController::class)->group(function ()
 
 Route::prefix('on-taps')->controller(TapViewController::class)->group(function () {
     Route::get('/', 'showOnTaps')->name('on-taps');
+});
+
+Route::prefix('bottlings')->controller(BottlingViewController::class)->group(function () {
+    Route::get('/', 'showBottlings')->name('bottlings');
 });
