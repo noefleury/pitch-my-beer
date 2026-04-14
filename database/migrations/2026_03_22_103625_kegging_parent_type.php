@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->renameColumn('beer_id', 'kegged_id');
             $table->string('kegged_type')->after('kegged_id');
         });
-        Kegging::withTrashed()->update(['kegged_type' => 'beer']);
+        Kegging::query()->update(['kegged_type' => 'beer']);
     }
 
     /**

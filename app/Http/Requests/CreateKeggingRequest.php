@@ -23,7 +23,7 @@ class CreateKeggingRequest extends FormRequest
         return [
             'volume'  => 'required|decimal:0,2|min:0.5',
             'beer_id' => ['required', 'integer', Rule::exists('beers', 'id')],
-            'keg_id'  => ['required', 'integer', Rule::exists('kegs', 'id')->withoutTrashed()],
+            'keg_id'  => ['required', 'integer', Rule::exists('kegs', 'id')->whereNull('deleted_at')],
         ];
     }
 

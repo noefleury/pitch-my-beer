@@ -9,7 +9,6 @@ use Database\Factories\FermenterFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Fermenter
@@ -28,7 +27,6 @@ class Fermenter extends Model
     use Commentable;
     use HasFactory;
     use HasUniqueIdentifier;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 

@@ -10,6 +10,7 @@ use App\Models\Keg;
 use App\Models\Tap;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class MaterialService
@@ -26,29 +27,40 @@ class MaterialService
         ];
     }
 
+    private function getMaterial(Model|string $model, bool $includeDeleted)
+    {
+        $query = $model::query();
+
+        if (!$includeDeleted) {
+            $query->whereNull('deleted_at');
+        }
+
+        return $query->get()->makeHidden(['created_at', 'deleted_at']);
+    }
+
     private function getFermenters(bool $includeDeleted): Collection
     {
-        return Fermenter::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+        return $this->getMaterial(Fermenter::class, $includeDeleted);
     }
 
     private function getGazTanks(bool $includeDeleted): Collection
     {
-        return GazTank::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+        return $this->getMaterial(GazTank::class, $includeDeleted);
     }
 
     private function getKegs(bool $includeDeleted): Collection
     {
-        return Keg::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+        return $this->getMaterial(Keg::class, $includeDeleted);
     }
 
     private function getTaps(bool $includeDeleted): Collection
     {
-        return Tap::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+        return $this->getMaterial(Tap::class, $includeDeleted);
     }
 
     private function getBottles(bool $includeDeleted): Collection
     {
-        return Bottle::withTrashed($includeDeleted)->get()->makeHidden(['created_at', 'deleted_at']);
+        return $this->getMaterial(Bottle::class, $includeDeleted);
     }
 
     /**

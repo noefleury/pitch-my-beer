@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Kegging
@@ -31,7 +30,6 @@ class Kegging extends Model
 
     use Commentable;
     use HasFactory;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 
@@ -50,12 +48,12 @@ class Kegging extends Model
      */
     public function kegged(): BelongsTo
     {
-        return $this->morphTo()->withTrashed();
+        return $this->morphTo();
     }
 
     public function keggings(): MorphMany
     {
-        return $this->morphMany(Kegging::class, 'kegged')->withTrashed();
+        return $this->morphMany(Kegging::class, 'kegged');
     }
 
     public function keg(): BelongsTo

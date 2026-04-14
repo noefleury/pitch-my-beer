@@ -9,7 +9,6 @@ use Carbon\Carbon;
 use Database\Factories\TapFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Tap
@@ -28,7 +27,6 @@ class Tap extends Model
     use Commentable;
     use HasFactory;
     use HasUniqueIdentifier;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 

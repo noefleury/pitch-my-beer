@@ -75,12 +75,12 @@ class Beer extends Model
 
     public function keggings(): MorphMany
     {
-        return $this->morphMany(Kegging::class, 'kegged')->withTrashed();
+        return $this->morphMany(Kegging::class, 'kegged');
     }
 
     public function bottlings(): HasMany
     {
-        return $this->hasMany(Bottling::class)->withTrashed();
+        return $this->hasMany(Bottling::class);
     }
 
     protected function isHomemade(): Attribute

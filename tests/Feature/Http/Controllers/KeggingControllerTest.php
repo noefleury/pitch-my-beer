@@ -3,7 +3,6 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Enums\BeerStatus;
-use App\Enums\KeggedType;
 use App\Http\Controllers\KeggingController;
 use App\Models\Beer;
 use App\Models\Keg;

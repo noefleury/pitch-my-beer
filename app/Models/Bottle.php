@@ -9,7 +9,6 @@ use Database\Factories\BottleFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Bottle
@@ -27,7 +26,6 @@ class Bottle extends Model
     use Commentable;
     use HasFactory;
     use HasUniqueIdentifier;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 

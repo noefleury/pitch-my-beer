@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Bottling
@@ -33,7 +32,6 @@ class Bottling extends Model
 
     use Commentable;
     use HasFactory;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 

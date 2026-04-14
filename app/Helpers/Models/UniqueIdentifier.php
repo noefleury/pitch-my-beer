@@ -4,7 +4,6 @@ namespace App\Helpers\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Tests\Feature\Helpers\Models\UniqueIdentifierTest;
 
 /**
@@ -28,22 +27,16 @@ class UniqueIdentifier
     /**
      * @throws Exception
      */
-    public static function getModelByUniqueIdentifier(string $identifier)
+    public static function getModelByUniqueIdentifier(string $identifier): Model
     {
         $explodedIdentifier = explode('#', $identifier);
         if (count($explodedIdentifier) !== 2) {
             throw new Exception("Malformed unique identifier: $identifier");
         }
 
-        /** @var Model|SoftDeletes $model */
+        /** @var Model $model */
         if ($model = array_search($explodedIdentifier[0], config('custom.models.unique_identifiers'))) {
-            if (in_array(SoftDeletes::class, class_uses($model))) {
-                $model = $model::withTrashed();
-            } else {
-                $model = $model::query();
-            }
-
-            return $model->findOrFail($explodedIdentifier[1]);
+            return $model::query()->findOrFail($explodedIdentifier[1]);
         }
         throw new Exception("Cannot get model from unique identifier: $identifier");
     }
