@@ -96,5 +96,6 @@ Route::prefix('bottlings')
 Route::prefix('fermentations')
     ->controller(FermentationController::class)
     ->group(function () {
+        Route::get('/', 'list');
         Route::post('/', 'create');
     });

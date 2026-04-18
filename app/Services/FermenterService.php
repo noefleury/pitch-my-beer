@@ -23,11 +23,14 @@ class FermenterService
     public function getRelationsData(Fermenter $fermenter): array
     {
         return [
-            'fermentation' => $fermenter->fermentations()->latest('id')->first([
-                'id',
-                'volume',
-                'created_at',
-            ]),
+            'fermentation' => $fermenter->fermentations()
+                ->latest('id')
+                ->first([
+                    'id',
+                    'volume',
+                    'created_at',
+                ])
+                ->append('fermenting_days'),
         ];
     }
 

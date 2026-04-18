@@ -6,6 +6,7 @@ use App\Enums\FermenterType;
 use App\Traits\Models\Commentable;
 use Carbon\Carbon;
 use Database\Factories\FermentationFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property FermenterType $fermenter_type
  * @property float         $volume
  * @property Carbon        $created_at
+ *
+ * @property-read int      $fermenting_days
+ * @see self::fermentingDays()
  *
  * @see FermentationFactory
  */
@@ -69,6 +73,20 @@ class Fermentation extends Model
     public function beer()
     {
         return $this->hasOne(Beer::class);
+    }
+
+    /**
+     * Fermenting days duration
+     *
+     * @return Attribute
+     */
+    protected function fermentingDays(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return (int)$this->created_at->diffInDays();
+            },
+        );
     }
 
 }

@@ -43,6 +43,7 @@ class FermenterControllerTest extends TestCase
                 'fermentation' => [
                     'id',
                     'volume',
+                    'fermenting_days',
                     'created_at',
                 ],
             ]);

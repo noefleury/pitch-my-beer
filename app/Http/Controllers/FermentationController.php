@@ -18,6 +18,12 @@ class FermentationController extends Controller
     {
     }
 
+    public function list() {
+        return $this->jsonResponse(
+            $this->fermentationService->list(),
+        );
+    }
+
     public function create(Request $request)
     {
         $request->validate([
