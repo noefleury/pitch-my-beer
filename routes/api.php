@@ -6,6 +6,7 @@ use App\Http\Controllers\BottlingController;
 use App\Http\Controllers\FermentationController;
 use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
+use App\Http\Controllers\HealthCheckController;
 use App\Http\Controllers\KegController;
 use App\Http\Controllers\KeggingController;
 use App\Http\Controllers\MaterialController;
@@ -15,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 // todo handle auth
 
-Route::get('/ping', function () {
-    return response()->json(['data' => 'pong']);
-});
+Route::get('/ping', [HealthCheckController::class, 'ping']);
+Route::get('/ping-server', [HealthCheckController::class, 'pingServer']);
 
 Route::prefix('materials')
     ->controller(MaterialController::class)

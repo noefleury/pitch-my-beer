@@ -24,4 +24,16 @@ class HealthCheckTest extends TestCase
             ->assertExactJson(['data' => 'pong']);
     }
 
+    public function test_can_ping_api_server(): void
+    {
+        define('LARAVEL_START', microtime(true)); // manually define variable as not set during testing
+        $this->get('/api/ping-server')
+            ->assertOk()
+            ->assertExactJsonStructure([
+                'laravel_version',
+                'php_version',
+                'processing_duration',
+            ]);
+    }
+
 }
