@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\FermenterType;
 use App\Models\Fermentation;
+use App\Models\FermentationGravity;
 use App\Models\Wort;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -37,6 +38,13 @@ class FermentationService
             'fermenter_id'   => $fermenterId,
             'fermenter_type' => $fermenterType,
             'volume'         => $volume,
+        ]);
+    }
+
+    public function updateGravity(Fermentation $fermentation, float $gravity): FermentationGravity
+    {
+        return $fermentation->gravities()->create([
+            'value' => $gravity,
         ]);
     }
 

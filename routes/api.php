@@ -98,4 +98,5 @@ Route::prefix('fermentations')
     ->group(function () {
         Route::get('/', 'list');
         Route::post('/', 'create');
+        Route::patch('/{fermentation}/gravity', 'updateGravity');
     });

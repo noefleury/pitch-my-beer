@@ -21,4 +21,10 @@ abstract class Controller extends \Illuminate\Routing\Controller
 
         return response()->json($data, 201);
     }
+
+    protected function emptyResponse()
+    {
+        return response(status: 204);
+    }
+
 }

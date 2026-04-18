@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\FermenterType;
+use App\Models\Fermentation;
 use App\Services\FermentationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,7 +19,8 @@ class FermentationController extends Controller
     {
     }
 
-    public function list() {
+    public function list()
+    {
         return $this->jsonResponse(
             $this->fermentationService->list(),
         );
@@ -39,5 +41,19 @@ class FermentationController extends Controller
         );
 
         return $this->jsonCreatedResponse();
+    }
+
+    public function updateGravity(Request $request, Fermentation $fermentation)
+    {
+        $request->validate([
+            'gravity' => 'decimal:0,3',
+        ]);
+
+        $this->fermentationService->updateGravity(
+            $fermentation,
+            $request->float('gravity'),
+        );
+
+        return $this->emptyResponse();
     }
 }

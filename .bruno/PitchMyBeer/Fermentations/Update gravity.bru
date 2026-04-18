@@ -1,0 +1,21 @@
+meta {
+  name: Update gravity
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{API_ENDPOINT}}/fermentations/{{id}}/gravity
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "gravity": 1.01
+  }
+}
+
+vars:pre-request {
+  id: 1
+}
