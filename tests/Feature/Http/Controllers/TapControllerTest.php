@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\TapController;
+use App\Models\Link;
 use App\Models\Tap;
+use Carbon\Carbon;
 use Database\Seeders\LinkedBeerSeeder;
 use Tests\TestCase;
 
@@ -59,10 +61,16 @@ class TapControllerTest extends TestCase
     {
         $this->seed(LinkedBeerSeeder::class);
 
+        // finished Link -> not listed
+        $this->seed(LinkedBeerSeeder::class);
+        $olderLink             = Link::query()->oldest()->first();
+        $olderLink->deleted_at = Carbon::now();
+        $olderLink->save();
+
         $this->get('/api/on-taps')
             ->assertOk()
             ->assertExactJsonStructure([
-                [
+                0 => [
                     'id',
                     'beer_id',
                     'beer_type',

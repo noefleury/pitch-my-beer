@@ -21,6 +21,9 @@ class BottlingControllerTest extends TestCase
     {
         $this->seed(BottledBeerSeeder::class);
 
+        // drunk -> not listed
+        Bottling::factory()->for(Beer::factory())->for(Bottle::factory())->create(['deleted_at' => Carbon::now()]);
+
         $this->get('/api/bottlings')
             ->assertExactJsonStructure([
                 0 => [
