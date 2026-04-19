@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Enums\BeerStatus;
 use App\Models\Beer;
 use App\Models\Bottle;
-use App\Models\Keg;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -44,7 +43,7 @@ class CreateBottlingRequest extends FormRequest
                         'The given beer is already consumed'
                     );
                 }
-                if ($bottlesQuery->has('bottlings')->exists()) {
+                if ($bottlesQuery->clone()->whereHas('bottlings', fn($query) => $query->whereNull('deleted_at'))->exists()) {
                     $validator->errors()->add(
                         'bottle_ids',
                         'The given bottles contain one which is already bottled'
@@ -52,7 +51,7 @@ class CreateBottlingRequest extends FormRequest
                 }
                 // maybe adapt to handle little more
                 // todo should check what is already consumed from beer
-                if ((float)$bottlesQuery->sum('volume') > $beer->volume) {
+                if ((float)$bottlesQuery->sum('volume') / 1000 > $beer->volume) {
                     $validator->errors()->add(
                         'volume',
                         'This volume cannot be taken from the given beer'

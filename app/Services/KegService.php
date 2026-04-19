@@ -24,11 +24,12 @@ class KegService
     {
         return [
             'kegging'     => $keg->keggings()
+                ->whereNull('deleted_at')
                 ->first([
                     'volume',
                     'created_at',
                 ]),
-            'kegged_beer' => (object)$keg->keggings()->first()?->beer()->only([
+            'kegged_beer' => (object)$keg->keggings()->whereNull('deleted_at')->first()?->beer()->only([
                 'id',
                 'uid',
                 'name',

@@ -44,7 +44,7 @@ class KeggingControllerTest extends TestCase
 
     public function test_create_validation_keg_already_kegged()
     {
-        Kegging::factory()->for(Beer::factory(['status' => BeerStatus::Fermenting]), 'kegged')->for($this->keg)->create();
+        Kegging::factory()->for(Beer::factory(), 'kegged')->for($this->keg)->create();
 
         $this
             ->postJson('/api/keggings', [

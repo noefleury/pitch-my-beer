@@ -44,7 +44,7 @@ class CreateKeggingRequest extends FormRequest
                         'The given beer is already consumed'
                     );
                 }
-                if ($keg->keggings()->exists()) { // maybe add force mode
+                if ($keg->keggings()->whereNull('deleted_at')->exists()) { // maybe add force mode
                     $validator->errors()->add(
                         'keg',
                         'The given keg is already kegged'

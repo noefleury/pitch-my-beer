@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateKeggingRequest;
 use App\Services\KeggingService;
-use Tests\Feature\Http\Controllers\StatsControllerTest;
+use Tests\Feature\Http\Controllers\KeggingControllerTest;
 
 /**
- * @see StatsControllerTest
+ * @see KeggingControllerTest
  */
 class KeggingController extends Controller
 {
