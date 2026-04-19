@@ -140,6 +140,7 @@ class BeerControllerTest extends TestCase
                 ],
                 'comments'     => [
                     0 => [
+                        'id',
                         'value',
                         'created_at',
                     ],

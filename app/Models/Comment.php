@@ -28,7 +28,7 @@ class Comment extends Model
 
     protected $fillable = ['value'];
 
-    protected $hidden = ['id', 'entity_id', 'entity_type'];
+    protected $hidden = ['entity_id', 'entity_type'];
 
     public function entity(): MorphTo
     {

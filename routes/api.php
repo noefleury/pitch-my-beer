@@ -100,3 +100,9 @@ Route::prefix('fermentations')
         Route::post('/', 'create');
         Route::patch('/{fermentation}/gravity', 'updateGravity');
     });
+
+Route::prefix('comments')
+    ->controller(\App\Http\Controllers\CommentController::class)
+    ->group(function () {
+        Route::get('/', 'list');
+    });

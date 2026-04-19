@@ -54,6 +54,7 @@ class KegControllerTest extends TestCase
                 ],
                 'comments'    => [
                     '*' => [
+                        'id',
                         'value',
                         'created_at',
                     ],
