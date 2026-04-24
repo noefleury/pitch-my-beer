@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\GazTank;
+use Carbon\Carbon;
 
 class GazTankService
 {
@@ -21,5 +22,12 @@ class GazTankService
         ]);
 
         return $gazTank->only(['id', 'uid']);
+    }
+
+    public function delete(int $gazTankId): int
+    {
+        return GazTank::query()
+            ->where('id', $gazTankId)
+            ->update(['deleted_at' => Carbon::now()]);
     }
 }

@@ -36,6 +36,7 @@ Route::prefix('materials')
             ->group(function () {
                 Route::get('/{gazTank}', 'show');
                 Route::post('/', 'create');
+                Route::delete('/{id}', 'delete');
             });
         Route::prefix('kegs')
             ->controller(KegController::class)

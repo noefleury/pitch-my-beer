@@ -40,4 +40,11 @@ class GazTankController extends Controller
             ),
         );
     }
+
+    public function delete(int $gazTankId)
+    {
+        $this->gazTankService->delete($gazTankId);
+
+        return $this->emptyResponse();
+    }
 }

@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Http\Controllers\FermenterController;
 use App\Http\Controllers\GazTankController;
-use App\Models\Fermenter;
 use App\Models\GazTank;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 /**
@@ -60,6 +59,19 @@ class GazTankControllerTest extends TestCase
             'gaz_tanks',
             ['id' => $gazTankId, 'volume' => 4.5, 'co2_percent' => 70, 'name' => 'dummy'],
         );
+    }
+
+    public function test_delete_gaz_tank()
+    {
+        Carbon::setTestNow('2026-04-24 21:29');
+
+        $this->delete('/api/materials/gaz-tanks/'.$this->gazTank->getKey())
+            ->assertNoContent();
+
+        $this->assertDatabaseHas('gaz_tanks', [
+            'id'         => $this->gazTank->getKey(),
+            'deleted_at' => '2026-04-24 21:29:00',
+        ]);
     }
 
 }
