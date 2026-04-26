@@ -14,6 +14,7 @@ class BottlingService
     public function list(): Collection
     {
         return Bottling::query()
+            ->whereNull('deleted_at')
             ->with(['beer', 'bottle:id,volume'])
             ->orderBy('beer_id')
             ->orderBy('id')

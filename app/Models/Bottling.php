@@ -33,7 +33,6 @@ class Bottling extends Model
 
     use Commentable;
     use HasFactory;
-    use SoftDeletes;
 
     public const null UPDATED_AT = null;
 

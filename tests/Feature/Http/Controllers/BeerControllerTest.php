@@ -12,6 +12,7 @@ use App\Models\Fermenter;
 use App\Models\Keg;
 use App\Models\Kegging;
 use App\Models\Wort;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 /**
@@ -73,8 +74,10 @@ class BeerControllerTest extends TestCase
     {
         $this->seedBaseData();
         $kegging = Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
-        Kegging::factory()->for($kegging, 'kegged')->for(Keg::factory())->create();  // transfer
-        Bottling::factory()->for($this->beer)->for(Bottle::factory())->create();
+        // transfer
+        Kegging::factory()->for($kegging, 'kegged')->for(Keg::factory())->create(['deleted_at' => Carbon::now()]);
+        // bottling
+        Bottling::factory()->for($this->beer)->for(Bottle::factory())->create(['deleted_at' => Carbon::now()]);
 
         $this->get('/api/beers/'.$this->beer->getKey().'/relations')
             ->assertOk()
