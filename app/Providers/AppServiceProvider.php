@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\FermenterType;
 use App\Enums\KeggedType;
+use App\Models\Authentication\User;
 use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Fermentation;
@@ -33,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // useful for Auth polymorphism
+        Relation::enforceMorphMap([
+            'user' => User::class,
+        ]);
+
         // useful for Fermenter polymorphism
         Relation::enforceMorphMap([
             FermenterType::Fermenter->value => Fermenter::class,

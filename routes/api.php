@@ -14,9 +14,7 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\TapController;
 use Illuminate\Support\Facades\Route;
 
-// todo handle auth
-
-Route::get('/ping', [HealthCheckController::class, 'ping']);
+Route::get('/ping', [HealthCheckController::class, 'ping'])->withoutMiddleware('auth:sanctum');
 Route::get('/ping-server', [HealthCheckController::class, 'pingServer']);
 
 Route::prefix('materials')

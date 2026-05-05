@@ -34,5 +34,8 @@
     "Date": "Date",
     "Current fermentation": "Current fermentation",
     "Current kegging": "Current kegging",
-    "Days ": "Days"
+    "Days ": "Days",
+    "Username": "Username",
+    "Password": "Password",
+    "Connect": "Connect"
 }

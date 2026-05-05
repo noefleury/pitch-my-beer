@@ -50,3 +50,17 @@ docker exec pitch-my-beer_web /var/www/html/artisan db:seed
 ```bash
 docker exec pitch-my-beer_web /var/www/html/artisan test
 ```
+
+## Authentication
+
+To generate a new user (Web GUI):
+
+```php
+docker exec -it pitch-my-beer_web /var/www/html/artisan auth:create-user
+```
+
+To generate a new user token (API) :
+
+```php
+docker exec -it pitch-my-beer_web /var/www/html/artisan auth:create-user-token
+```

@@ -11,12 +11,21 @@ use App\Services\GazTankService;
 use App\Services\KegService;
 use App\Services\MaterialService;
 use App\Services\TapService;
+use App\View\Controllers\Authentication\AuthViewController;
 use App\View\Controllers\BeerViewController;
 use App\View\Controllers\BottlingViewController;
 use App\View\Controllers\TapViewController;
 use Illuminate\Support\Facades\Route;
 
-// todo handle auth
+// auth views
+Route::prefix('/login')
+    ->withoutMiddleware('auth')
+    ->controller(AuthViewController::class)
+    ->group(function () {
+        Route::get('/', 'showLogin')->name('login');
+        Route::post('/', 'authenticate')->name('authenticate');
+    });
+// end auth views
 
 Route::get('/', function () {
     return view('home');
