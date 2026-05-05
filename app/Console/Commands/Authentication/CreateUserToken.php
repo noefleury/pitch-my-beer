@@ -21,8 +21,12 @@ class CreateUserToken extends Command
      */
     public function handle(): int
     {
-        $email = $this->ask('Email');
-        $user  = User::query()->where('email', $email)->first();
+        $usernameOrEmail = $this->ask('Username or Email');
+
+        $user = User::query()
+            ->where('username', $usernameOrEmail)
+            ->orWhere('email', $usernameOrEmail)
+            ->first();
 
         if (!$user) {
             $this->warn('No user found');
