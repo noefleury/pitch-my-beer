@@ -25,6 +25,13 @@ class BottleController extends Controller
         );
     }
 
+    public function getRelations(Bottle $bottle)
+    {
+        return $this->jsonResponse(
+            $this->bottleService->getRelationsData($bottle),
+        );
+    }
+
     /**
      * @throws Exception
      */

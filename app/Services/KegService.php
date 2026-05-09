@@ -26,6 +26,7 @@ class KegService
             'kegging'     => $keg->keggings()
                 ->whereNull('deleted_at')
                 ->first([
+                    'id',
                     'volume',
                     'created_at',
                 ]),

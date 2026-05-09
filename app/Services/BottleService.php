@@ -14,6 +14,32 @@ class BottleService
     }
 
     /**
+     * Get relations data
+     *
+     * @param   Bottle  $bottle
+     *
+     * @return array
+     */
+    public function getRelationsData(Bottle $bottle): array
+    {
+        return [
+            'bottling'     => $bottle->bottlings()->whereNull('deleted_at')->first([
+                'id',
+                'created_at',
+            ]),
+            'bottled_beer' => (object)$bottle->bottlings()->whereNull('deleted_at')->first()?->beer()->first()->only([
+                'id',
+                'uid',
+                'name',
+                'type',
+                'status',
+                'is_homemade',
+            ]),
+            'comments'     => $bottle->comments()->get(),
+        ];
+    }
+
+    /**
      * Create bottle
      *
      * @param   int  $milliliters

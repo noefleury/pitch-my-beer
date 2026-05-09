@@ -3,7 +3,9 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Http\Controllers\BottleController;
+use App\Models\Beer;
 use App\Models\Bottle;
+use App\Models\Bottling;
 use Tests\TestCase;
 
 /**
@@ -28,6 +30,35 @@ class BottleControllerTest extends TestCase
                 'volume',
                 'created_at',
                 'deleted_at',
+            ]);
+    }
+
+    public function test_show_bottle_relations()
+    {
+        Bottling::factory()->for(Beer::factory())->for($this->bottle)->create();
+        $this->get('/api/materials/bottles/'.$this->bottle->getKey().'/relations')
+            ->assertOk()
+            ->assertExactJsonStructure([
+                'bottling'     => [
+                    'id',
+                    'guarding_days',
+                    'created_at',
+                ],
+                'bottled_beer' => [
+                    'id',
+                    'uid',
+                    'name',
+                    'type',
+                    'status',
+                    'is_homemade',
+                ],
+                'comments'     => [
+                    '*' => [
+                        'id',
+                        'value',
+                        'created_at',
+                    ],
+                ],
             ]);
     }
 

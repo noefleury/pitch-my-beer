@@ -53,6 +53,7 @@ Route::prefix('materials')
             ->controller(BottleController::class)
             ->group(function () {
                 Route::get('/{bottle}', 'show');
+                Route::get('/{bottle}/relations', 'getRelations');
                 Route::post('/', 'create');
             });
     });

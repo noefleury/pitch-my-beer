@@ -1,0 +1,15 @@
+meta {
+  name: Relations
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{API_ENDPOINT}}/materials/bottles/{{id}}/relations
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  id: 1
+}

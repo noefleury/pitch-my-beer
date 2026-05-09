@@ -41,6 +41,7 @@ class KegControllerTest extends TestCase
             ->assertOk()
             ->assertExactJsonStructure([
                 'kegging'     => [
+                    'id',
                     'volume',
                     'created_at',
                 ],
