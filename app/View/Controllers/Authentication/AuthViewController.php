@@ -15,8 +15,12 @@ use Tests\Feature\View\Controllers\AuthViewControllerTest;
 class AuthViewController extends ViewController
 {
 
-    public function showLogin(): View
+    public function showLogin(): RedirectResponse|View
     {
+        if (Auth::check()) {
+            return redirect()->route('home');
+        }
+
         return view('login');
     }
 
