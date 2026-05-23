@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Bottle;
+use App\Models\Bottling;
+use Carbon\Carbon;
 use Exception;
 
 class BottleService
@@ -58,6 +60,23 @@ class BottleService
         }
 
         return $ids;
+    }
+
+    /**
+     * Consume current bottling of the bottle
+     *
+     * @param   Bottle  $bottle
+     *
+     * @return bool
+     */
+    public function consumeBottling(Bottle $bottle): bool
+    {
+        /** @var Bottling $bottling */
+        $bottling = $bottle->bottlings()->whereNull('deleted_at')->firstOrFail();
+
+        $bottling->deleted_at = Carbon::now();
+
+        return $bottling->save();
     }
 
 }

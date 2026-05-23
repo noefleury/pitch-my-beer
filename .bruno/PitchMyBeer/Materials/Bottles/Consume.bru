@@ -1,0 +1,15 @@
+meta {
+  name: Consume
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{API_ENDPOINT}}/materials/bottles/{{id}}/consume
+  body: none
+  auth: inherit
+}
+
+vars:pre-request {
+  id: 1
+}

@@ -32,6 +32,13 @@ class BottleController extends Controller
         );
     }
 
+    public function consumeBottling(Bottle $bottle)
+    {
+        $this->bottleService->consumeBottling($bottle);
+
+        return $this->emptyResponse();
+    }
+
     /**
      * @throws Exception
      */

@@ -6,6 +6,7 @@ use App\Http\Controllers\BottleController;
 use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Bottling;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 /**
@@ -60,6 +61,30 @@ class BottleControllerTest extends TestCase
                     ],
                 ],
             ]);
+    }
+
+    public function test_consume_bottle()
+    {
+        Carbon::setTestNow('2026-05-23 10:13');
+
+        // drunk one (same bottle)
+        $drunkBottlingId = Bottling::factory()->for(Beer::factory())->for($this->bottle)->create(
+            ['deleted_at' => '2026-05-23 10:10']
+        )->getKey();
+
+        // to consume (same bottle)
+        $toConsumeBottlingId = Bottling::factory()->for(Beer::factory())->for($this->bottle)->create()->getKey();
+
+        $this->assertDatabaseCount('bottlings', 2);
+
+        $this->patch('/api/materials/bottles/'.$this->bottle->getKey().'/consume')
+            ->assertNoContent();
+
+        $this->assertDatabaseCount('bottlings', 2);
+        $this->assertDatabaseHas('bottlings', ['id' => $toConsumeBottlingId, 'deleted_at' => '2026-05-23 10:13']);
+
+        // ensure already drunk bottling was not impacted
+        $this->assertDatabaseHas('bottlings', ['id' => $drunkBottlingId, 'deleted_at' => '2026-05-23 10:10']);
     }
 
     public function test_create_bottle()

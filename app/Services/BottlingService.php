@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Bottling;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class BottlingService
@@ -36,6 +37,15 @@ class BottlingService
         }
 
         return true;
+    }
+
+    public function delete(int $bottlingId): bool
+    {
+        $bottling = Bottling::query()->whereNull('deleted_at')->findOrFail($bottlingId);
+
+        $bottling->deleted_at = Carbon::now();
+
+        return $bottling->save();
     }
 
 }

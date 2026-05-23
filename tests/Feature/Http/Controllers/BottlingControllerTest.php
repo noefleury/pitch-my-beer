@@ -78,4 +78,42 @@ class BottlingControllerTest extends TestCase
         ]);
     }
 
+    public function test_delete_bottling()
+    {
+        Carbon::setTestNow('2026-05-23 10:03');
+
+        $this->seed(BottledBeerSeeder::class);
+        $bottlingId = Bottling::query()->first()->getKey();
+
+        $this->assertDatabaseCount('bottlings', 1);
+
+        $this->delete('/api/bottlings/'.$bottlingId)->assertNoContent();
+
+        $this->assertDatabaseCount('bottlings', 1);
+        $this->assertDatabaseHas('bottlings', ['id' => $bottlingId, 'deleted_at' => '2026-05-23 10:03']);
+    }
+
+    public function test_delete_bottling_already_consumed()
+    {
+        Carbon::setTestNow('2026-05-23 10:18');
+
+        $bottlingDrunk = Bottling::factory()->for(Beer::factory())->for(Bottle::factory())->create(
+            ['deleted_at' => '2026-05-23 10:17']
+        );
+
+        $this->assertDatabaseCount('bottlings', 1);
+
+        $this->delete('/api/bottlings/'.$bottlingDrunk->getKey())->assertNotFound();
+
+        $this->assertDatabaseCount('bottlings', 1);
+
+        // ensure already drunk bottling was not impacted
+        $this->assertDatabaseHas('bottlings', ['id' => $bottlingDrunk->getKey(), 'deleted_at' => '2026-05-23 10:17']);
+    }
+
+    public function test_delete_bottling_not_exist()
+    {
+        $this->delete('/api/bottlings/123')->assertNotFound();
+    }
+
 }

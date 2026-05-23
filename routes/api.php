@@ -54,6 +54,7 @@ Route::prefix('materials')
             ->group(function () {
                 Route::get('/{bottle}', 'show');
                 Route::get('/{bottle}/relations', 'getRelations');
+                Route::patch('/{bottle}/consume', 'consumeBottling');
                 Route::post('/', 'create');
             });
     });
@@ -91,6 +92,7 @@ Route::prefix('bottlings')
     ->group(function () {
         Route::get('/', 'list');
         Route::post('/', 'create');
+        Route::delete('/{id}', 'delete');
     });
 
 Route::prefix('fermentations')

@@ -32,4 +32,11 @@ class BottlingController extends Controller
 
         return $this->jsonCreatedResponse();
     }
+
+    public function delete(int $bottlingId)
+    {
+        $this->bottlingService->delete($bottlingId);
+
+        return $this->emptyResponse();
+    }
 }
