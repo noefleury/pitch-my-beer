@@ -66,7 +66,7 @@ class GlobalStatsSeeder extends Seeder
                 ['deleted_at' => Carbon::now()],
                 ['deleted_at' => null],
             )
-            ->create(['beer_id' => Beer::query()->first()->getKey()]);
+            ->create(['fermentation_id' => Fermentation::query()->first()->getKey()]);
     }
 
     private function buildFermentationFactory(): Factory

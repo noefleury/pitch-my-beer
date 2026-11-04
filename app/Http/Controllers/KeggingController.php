@@ -22,7 +22,7 @@ class KeggingController extends Controller
         return $this->jsonCreatedResponse(
             $this->keggingService->create(
                 $request->float('volume'),
-                $request->integer('beer_id'),
+                $request->integer('fermentation_id'),
                 $request->integer('keg_id'),
             ),
         );

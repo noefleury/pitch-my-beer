@@ -78,11 +78,6 @@ class Beer extends Model
         return $this->morphMany(Kegging::class, 'kegged');
     }
 
-    public function bottlings(): HasMany
-    {
-        return $this->hasMany(Bottling::class);
-    }
-
     protected function isHomemade(): Attribute
     {
         return Attribute::make(

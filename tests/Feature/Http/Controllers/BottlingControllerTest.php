@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\BeerStatus;
 use App\Http\Controllers\BottlingController;
-use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Bottling;
+use App\Models\Fermentation;
 use Carbon\Carbon;
 use Database\Seeders\BottledBeerSeeder;
 use Tests\TestCase;
@@ -22,25 +21,30 @@ class BottlingControllerTest extends TestCase
         $this->seed(BottledBeerSeeder::class);
 
         // drunk -> not listed
-        Bottling::factory()->for(Beer::factory())->for(Bottle::factory())->create(['deleted_at' => Carbon::now()]);
+        Bottling::factory()->for(Fermentation::factory())->for(Bottle::factory())->create(
+            ['deleted_at' => Carbon::now()]
+        );
 
         $this->get('/api/bottlings')
             ->assertExactJsonStructure([
                 0 => [
                     'id',
-                    'beer_id',
+                    'fermentation_id',
                     'bottle_id',
                     'guarding_days',
                     'created_at',
-                    'beer'   => [
+                    'fermentation' => [
                         'id',
-                        'uid',
-                        'name',
-                        'type',
-                        'abv',
-                        'is_homemade',
+                        'beer' => [
+                            'id',
+                            'uid',
+                            'name',
+                            'type',
+                            'abv',
+                            'is_homemade',
+                        ],
                     ],
-                    'bottle' => [
+                    'bottle'       => [
                         'id',
                         'uid',
                         'volume',
@@ -51,13 +55,13 @@ class BottlingControllerTest extends TestCase
 
     public function test_create_bottling()
     {
-        // create beer and bottle
-        $beer   = Beer::factory()->create(['volume' => 20.0, 'status' => BeerStatus::Fermenting]);
-        $bottle = Bottle::factory()->create(['volume' => 750]); // 750 mL
+        // create fermentation and bottle
+        $fermentation = Fermentation::factory()->create();
+        $bottle       = Bottle::factory()->create(['volume' => 750]); // 750 mL
 
         // the bottle have been bottled and drunk in the past
         Bottling::factory()
-            ->for(Beer::factory())
+            ->for(Fermentation::factory())
             ->for($bottle)
             ->create(['deleted_at' => Carbon::now()]);
 
@@ -65,16 +69,16 @@ class BottlingControllerTest extends TestCase
             ->post(
                 '/api/bottlings',
                 [
-                    'beer_id'    => $beer->getKey(),
-                    'bottle_ids' => [$bottle->getKey()],
+                    'fermentation_id' => $fermentation->getKey(),
+                    'bottle_ids'      => [$bottle->getKey()],
                 ]
             )
             ->assertCreated();
 
         $this->assertDatabaseHas('bottlings', [
-            'beer_id'    => $beer->getKey(),
-            'bottle_id'  => $bottle->getKey(),
-            'deleted_at' => null,
+            'fermentation_id' => $fermentation->getKey(),
+            'bottle_id'       => $bottle->getKey(),
+            'deleted_at'      => null,
         ]);
     }
 
@@ -97,7 +101,7 @@ class BottlingControllerTest extends TestCase
     {
         Carbon::setTestNow('2026-05-23 10:18');
 
-        $bottlingDrunk = Bottling::factory()->for(Beer::factory())->for(Bottle::factory())->create(
+        $bottlingDrunk = Bottling::factory()->for(Fermentation::factory())->for(Bottle::factory())->create(
             ['deleted_at' => '2026-05-23 10:17']
         );
 

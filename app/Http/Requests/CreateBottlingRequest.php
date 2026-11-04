@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\BeerStatus;
-use App\Models\Beer;
 use App\Models\Bottle;
+use App\Models\Fermentation;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -21,9 +20,9 @@ class CreateBottlingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'beer_id'      => ['required', 'integer', Rule::exists('beers', 'id')],
-            'bottle_ids'   => ['required', 'array'],
-            'bottle_ids.*' => ['required', 'integer', Rule::exists('bottles', 'id')],
+            'fermentation_id' => ['required', 'integer', Rule::exists('fermentations', 'id')],
+            'bottle_ids'      => ['required', 'array'],
+            'bottle_ids.*'    => ['required', 'integer', Rule::exists('bottles', 'id')],
         ];
     }
 
@@ -32,17 +31,11 @@ class CreateBottlingRequest extends FormRequest
      */
     public function after(): array
     {
-        $beer         = Beer::query()->findOrFail($this->integer('beer_id'));
+        $fermentation = Fermentation::query()->findOrFail($this->integer('fermentation_id'));
         $bottlesQuery = Bottle::query()->whereIn('id', $this->array('bottle_ids'));
 
         return [
-            function (Validator $validator) use ($beer, $bottlesQuery) {
-                if ($beer->status === BeerStatus::Consumed) { // maybe adapt this
-                    $validator->errors()->add(
-                        'beer',
-                        'The given beer is already consumed'
-                    );
-                }
+            function (Validator $validator) use ($fermentation, $bottlesQuery) {
                 if ($bottlesQuery->clone()->whereHas('bottlings', fn($query) => $query->whereNull('deleted_at'))->exists()) {
                     $validator->errors()->add(
                         'bottle_ids',
@@ -50,11 +43,11 @@ class CreateBottlingRequest extends FormRequest
                     );
                 }
                 // maybe adapt to handle little more
-                // todo should check what is already consumed from beer
-                if ((float)$bottlesQuery->sum('volume') / 1000 > $beer->volume) {
+                // todo should check what is already consumed from fermentation
+                if ((float)$bottlesQuery->sum('volume') / 1000 > $fermentation->volume) {
                     $validator->errors()->add(
                         'volume',
-                        'This volume cannot be taken from the given beer'
+                        'This volume cannot be taken from the given fermentation'
                     );
                 }
             },

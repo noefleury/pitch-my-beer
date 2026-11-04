@@ -19,8 +19,8 @@ class BottlingViewController extends ViewController
         $headers = ['Beer', 'Type', 'Volume', 'Days'];
 
         $rows = Table::buildTableRows($bottlings, [
-            fn(Bottling $bottling) => $bottling->beer->name,
-            fn(Bottling $bottling) => $bottling->beer->type,
+            fn(Bottling $bottling) => $bottling->fermentation->beer->name,
+            fn(Bottling $bottling) => $bottling->fermentation->beer->type,
             fn(Bottling $bottling) => Volume::getFormattedValue($bottling->bottle->volume / 1000),
             'guarding_days',
         ]);

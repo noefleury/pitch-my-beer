@@ -26,7 +26,7 @@ class BottlingController extends Controller
     public function create(CreateBottlingRequest $request)
     {
         $this->bottlingService->create(
-            $request->integer('beer_id'),
+            $request->integer('fermentation_id'),
             $request->array('bottle_ids'),
         );
 

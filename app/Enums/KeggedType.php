@@ -5,7 +5,8 @@ namespace App\Enums;
 enum KeggedType: string
 {
 
-    case Beer = 'beer'; // eg: normal kegging (could have been fermentation too..)
+    case Beer = 'beer'; // eg: when bough beer
+    case Fermentation = 'fermentation'; // eg: normal kegging
     case Kegging = 'kegging'; // eg: when doing transfer
 
 }

@@ -47,8 +47,9 @@ class AppServiceProvider extends ServiceProvider
 
         // useful for Kegging polymorphism
         Relation::enforceMorphMap([
-            KeggedType::Beer->value    => Beer::class,
-            KeggedType::Kegging->value => Kegging::class,
+            KeggedType::Beer->value         => Beer::class,
+            KeggedType::Fermentation->value => Fermentation::class,
+            KeggedType::Kegging->value      => Kegging::class,
         ]);
 
         // useful for Commentable Trait polymorphism

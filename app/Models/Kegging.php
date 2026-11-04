@@ -77,8 +77,10 @@ class Kegging extends Model
     {
         if ($this->kegged_type === KeggedType::Beer) {
             return $this->kegged;
+        } elseif ($this->kegged_type === KeggedType::Fermentation) {
+            return $this->kegged->beer;
         } else {
-            return $this->kegged->beer();
+            return $this->kegged->beer(); // recursion
         }
     }
 

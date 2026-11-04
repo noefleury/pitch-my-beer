@@ -9,21 +9,20 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Bottling
  *
- * @property int         $id
- * @property int         $beer_id
- * @property int         $bottle_id
- * @property Carbon      $created_at
- * @property ?Carbon     $deleted_at
+ * @property int               $id
+ * @property int               $fermentation_id
+ * @property int               $bottle_id
+ * @property Carbon            $created_at
+ * @property ?Carbon           $deleted_at
  *
- * @property-read Beer   $beer
- * @property-read Bottle $bottle
+ * @property-read Fermentation $fermentation
+ * @property-read Bottle       $bottle
  *
- * @property-read int    $guarding_days
+ * @property-read int          $guarding_days
  * @see self::guardingDays()
  *
  * @see BottlingFactory
@@ -36,13 +35,13 @@ class Bottling extends Model
 
     public const null UPDATED_AT = null;
 
-    protected $fillable = ['beer_id', 'bottle_id'];
+    protected $fillable = ['fermentation_id', 'bottle_id'];
 
     protected $appends = ['guarding_days'];
 
-    public function beer(): BelongsTo
+    public function fermentation(): BelongsTo
     {
-        return $this->belongsTo(Beer::class);
+        return $this->belongsTo(Fermentation::class);
     }
 
     public function bottle(): BelongsTo

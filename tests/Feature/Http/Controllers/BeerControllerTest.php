@@ -21,12 +21,13 @@ use Tests\TestCase;
 class BeerControllerTest extends TestCase
 {
 
-    private ?Beer $beer = null;
+    private Fermentation $fermentation;
+    private Beer $beer;
 
     private function seedBaseData(): void
     {
-        $fermentation = Fermentation::factory()->for(Wort::factory())->for(Fermenter::factory())->create();
-        $this->beer   = Beer::factory()->for($fermentation)->create();
+        $this->fermentation = Fermentation::factory()->for(Wort::factory())->for(Fermenter::factory())->create();
+        $this->beer         = Beer::factory()->for($this->fermentation)->create();
         Comment::factory()->for($this->beer, 'entity')->create();
     }
 
@@ -73,16 +74,22 @@ class BeerControllerTest extends TestCase
     public function test_show_beer_relations()
     {
         $this->seedBaseData();
-        $kegging = Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
+        // bought
+        $boughtKegging = Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory())->create();
+        // kegging
+        $keg     = Keg::factory();
+        $kegging = Kegging::factory()->for($this->fermentation, 'kegged')->for($keg)->create();
         // transfer
-        Kegging::factory()->for($kegging, 'kegged')->for(Keg::factory())->create(['deleted_at' => Carbon::now()]);
+        Kegging::factory()->for($kegging, 'kegged')->for($keg)->create(['deleted_at' => Carbon::now()]);
+        // transfer from bought
+        Kegging::factory()->for($boughtKegging, 'kegged')->for(Keg::factory())->create(['deleted_at' => Carbon::now()]);
         // bottling
-        Bottling::factory()->for($this->beer)->for(Bottle::factory())->create(['deleted_at' => Carbon::now()]);
+        Bottling::factory()->for($this->fermentation)->for(Bottle::factory())->create(['deleted_at' => Carbon::now()]);
 
         $this->get('/api/beers/'.$this->beer->getKey().'/relations')
             ->assertOk()
             ->assertExactJsonStructure([
-                'fermentation' => [
+                'fermentation'     => [
                     'id',
                     'wort_id',
                     'fermenter_id',
@@ -90,7 +97,7 @@ class BeerControllerTest extends TestCase
                     'volume',
                     'created_at',
                 ],
-                'keggings'     => [
+                'keggings'         => [
                     0 => [
                         'id',
                         'volume',
@@ -103,7 +110,20 @@ class BeerControllerTest extends TestCase
                         ],
                     ],
                 ],
-                'transfers'    => [
+                'keggings_bought'  => [
+                    0 => [
+                        'id',
+                        'volume',
+                        'keg_id',
+                        'created_at',
+                        'deleted_at',
+                        'keg' => [
+                            'id',
+                            'uid',
+                        ],
+                    ],
+                ],
+                'transfers'        => [
                     0 => [
                         'id',
                         'volume',
@@ -126,13 +146,36 @@ class BeerControllerTest extends TestCase
                         ],
                     ],
                 ],
-                'bottlings'    => [
+                'transfers_bought' => [
                     0 => [
                         'id',
-                        'beer_id',
+                        'volume',
+                        'keg_id',
+                        'created_at',
+                        'deleted_at',
+                        'keg'    => [
+                            'id',
+                            'uid',
+                        ],
+                        'kegged' => [
+                            'volume',
+                            'keg_id',
+                            'created_at',
+                            'deleted_at',
+                            'keg' => [
+                                'id',
+                                'uid',
+                            ],
+                        ],
+                    ],
+                ],
+                'bottlings'        => [
+                    0 => [
+                        'id',
                         'bottle_id',
                         'created_at',
                         'deleted_at',
+                        'fermentation_id',
                         'guarding_days',
                         'bottle' => [
                             'id',
@@ -141,7 +184,7 @@ class BeerControllerTest extends TestCase
                         ],
                     ],
                 ],
-                'comments'     => [
+                'comments'         => [
                     0 => [
                         'id',
                         'value',

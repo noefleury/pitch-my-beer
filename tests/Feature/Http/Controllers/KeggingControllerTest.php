@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Enums\BeerStatus;
 use App\Http\Controllers\KeggingController;
 use App\Models\Beer;
+use App\Models\Fermentation;
 use App\Models\Keg;
 use App\Models\Kegging;
 use Tests\TestCase;
@@ -18,28 +18,12 @@ class KeggingControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->beer = Beer::factory()->create(['volume' => 10.0, 'status' => BeerStatus::Fermenting]);
-        $this->keg  = Keg::factory()->create(['volume' => 5.0]);
+        $this->fermentation = Fermentation::factory()->create(['volume' => 10.0]);
+        $this->keg          = Keg::factory()->create(['volume' => 5.0]);
         // already kegged 5L in some keg
-        Kegging::factory()->for($this->beer, 'kegged')->for(Keg::factory()->create(['volume' => 5.0]))->create(
+        Kegging::factory()->for($this->fermentation, 'kegged')->for(Keg::factory()->create(['volume' => 5.0]))->create(
             ['volume' => 5.0]
         );
-    }
-
-    public function test_create_validation_beer_already_consumed()
-    {
-        $this->beer->status = BeerStatus::Consumed;
-        $this->beer->save();
-
-        $this
-            ->postJson('/api/keggings', [
-                    'volume'  => 4.5,
-                    'beer_id' => $this->beer->getKey(),
-                    'keg_id'  => $this->keg->getKey(),
-                ]
-            )
-            ->assertUnprocessable()
-            ->assertOnlyJsonValidationErrors(['beer' => 'The given beer is already consumed']);
     }
 
     public function test_create_validation_keg_already_kegged()
@@ -48,9 +32,9 @@ class KeggingControllerTest extends TestCase
 
         $this
             ->postJson('/api/keggings', [
-                    'volume'  => 4.5,
-                    'beer_id' => $this->beer->getKey(),
-                    'keg_id'  => $this->keg->getKey(),
+                    'volume'          => 4.5,
+                    'fermentation_id' => $this->fermentation->getKey(),
+                    'keg_id'          => $this->keg->getKey(),
                 ]
             )
             ->assertUnprocessable()
@@ -61,9 +45,9 @@ class KeggingControllerTest extends TestCase
     {
         $this
             ->postJson('/api/keggings', [
-                    'volume'  => 5.5,
-                    'beer_id' => $this->beer->getKey(),
-                    'keg_id'  => $this->keg->getKey(),
+                    'volume'          => 5.5,
+                    'fermentation_id' => $this->fermentation->getKey(),
+                    'keg_id'          => $this->keg->getKey(),
                 ]
             )
             ->assertUnprocessable()
@@ -74,13 +58,13 @@ class KeggingControllerTest extends TestCase
     {
         $this
             ->postJson('/api/keggings', [
-                    'volume'  => 5.5,
-                    'beer_id' => $this->beer->getKey(),
-                    'keg_id'  => $this->keg->getKey(),
+                    'volume'          => 5.5,
+                    'fermentation_id' => $this->fermentation->getKey(),
+                    'keg_id'          => $this->keg->getKey(),
                 ]
             )
             ->assertUnprocessable()
-            ->assertOnlyJsonValidationErrors(['volume' => 'This volume cannot be taken from the given beer']);
+            ->assertOnlyJsonValidationErrors(['volume' => 'This volume cannot be taken from the given fermentation']);
     }
 
     public function test_create_kegging()
@@ -89,9 +73,9 @@ class KeggingControllerTest extends TestCase
 
         $this
             ->post('/api/keggings', [
-                    'volume'  => 5.0,
-                    'beer_id' => $this->beer->getKey(),
-                    'keg_id'  => $this->keg->getKey(),
+                    'volume'          => 5.0,
+                    'fermentation_id' => $this->fermentation->getKey(),
+                    'keg_id'          => $this->keg->getKey(),
                 ]
             )
             ->assertCreated();
@@ -99,8 +83,8 @@ class KeggingControllerTest extends TestCase
         $this->assertDatabaseCount('keggings', 2);
         $this->assertDatabaseHas('keggings', [
             'volume'      => 5.0,
-            'kegged_id'   => $this->beer->getKey(),
-            'kegged_type' => 'beer',
+            'kegged_id'   => $this->fermentation->getKey(),
+            'kegged_type' => 'fermentation',
             'keg_id'      => $this->keg->getKey(),
         ]);
     }

@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\BeerStatus;
-use App\Models\Beer;
+use App\Models\Fermentation;
 use App\Models\Keg;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -21,9 +20,9 @@ class CreateKeggingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'volume'  => 'required|decimal:0,2|min:0.5',
-            'beer_id' => ['required', 'integer', Rule::exists('beers', 'id')],
-            'keg_id'  => ['required', 'integer', Rule::exists('kegs', 'id')->whereNull('deleted_at')],
+            'volume'          => 'required|decimal:0,2|min:0.5',
+            'fermentation_id' => ['required', 'integer', Rule::exists('fermentations', 'id')],
+            'keg_id'          => ['required', 'integer', Rule::exists('kegs', 'id')->whereNull('deleted_at')],
         ];
     }
 
@@ -32,18 +31,12 @@ class CreateKeggingRequest extends FormRequest
      */
     public function after(): array
     {
-        $volume = $this->float('volume');
-        $beer   = Beer::query()->findOrFail($this->integer('beer_id'));
-        $keg    = Keg::query()->findOrFail($this->integer('keg_id'));
+        $volume       = $this->float('volume');
+        $fermentation = Fermentation::query()->findOrFail($this->integer('fermentation_id'));
+        $keg          = Keg::query()->findOrFail($this->integer('keg_id'));
 
         return [
-            function (Validator $validator) use ($volume, $beer, $keg) {
-                if ($beer->status === BeerStatus::Consumed) { // maybe adapt this
-                    $validator->errors()->add(
-                        'beer',
-                        'The given beer is already consumed'
-                    );
-                }
+            function (Validator $validator) use ($volume, $fermentation, $keg) {
                 if ($keg->keggings()->whereNull('deleted_at')->exists()) { // maybe add force mode
                     $validator->errors()->add(
                         'keg',
@@ -57,10 +50,10 @@ class CreateKeggingRequest extends FormRequest
                     );
                 }
                 // todo should check what is already consumed from beer
-                if ((float)$beer->keggings()->sum('volume') + $volume > $beer->volume) {
+                if ((float)$fermentation->keggings()->sum('volume') + $volume > $fermentation->volume) {
                     $validator->errors()->add(
                         'volume',
-                        'This volume cannot be taken from the given beer'
+                        'This volume cannot be taken from the given fermentation'
                     );
                 }
             },

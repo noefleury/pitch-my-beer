@@ -8,12 +8,12 @@ use App\Models\Kegging;
 class KeggingService
 {
 
-    public function create(float $volume, int $beerId, int $kegId): array
+    public function create(float $volume, int $fermentationId, int $kegId): array
     {
         $kegging = Kegging::query()->create([
             'volume'      => $volume,
-            'kegged_id'   => $beerId,
-            'kegged_type' => KeggedType::Beer,
+            'kegged_id'   => $fermentationId,
+            'kegged_type' => KeggedType::Fermentation,
             'keg_id'      => $kegId,
         ]);
 

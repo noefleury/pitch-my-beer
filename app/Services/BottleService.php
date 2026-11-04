@@ -29,7 +29,7 @@ class BottleService
                 'id',
                 'created_at',
             ]),
-            'bottled_beer' => (object)$bottle->bottlings()->whereNull('deleted_at')->first()?->beer()->first()->only([
+            'bottled_beer' => (object)$bottle->bottlings()->whereNull('deleted_at')->first()?->fermentation()->first()->beer()->first()->only([
                 'id',
                 'uid',
                 'name',

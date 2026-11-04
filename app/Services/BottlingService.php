@@ -16,23 +16,23 @@ class BottlingService
     {
         return Bottling::query()
             ->whereNull('deleted_at')
-            ->with(['beer', 'bottle:id,volume'])
-            ->orderBy('beer_id')
+            ->with(['fermentation.beer', 'bottle:id,volume'])
             ->orderBy('id')
             ->get()
             ->map(function (Bottling $bottling) {
-                $bottling->beer->setVisible(['id', 'uid', 'name', 'type', 'abv', 'is_homemade']);
+                $bottling->fermentation->setVisible(['id', 'beer']);
+                $bottling->fermentation->beer->setVisible(['id', 'uid', 'name', 'type', 'abv', 'is_homemade']);
 
                 return $bottling->makeHidden('deleted_at');
             });
     }
 
-    public function create(int $beerId, array $bottleIds): true
+    public function create(int $fermentationId, array $bottleIds): true
     {
         foreach ($bottleIds as $bottleId) {
             Bottling::query()->create([
-                'beer_id'   => $beerId,
-                'bottle_id' => $bottleId,
+                'fermentation_id' => $fermentationId,
+                'bottle_id'       => $bottleId,
             ]);
         }
 

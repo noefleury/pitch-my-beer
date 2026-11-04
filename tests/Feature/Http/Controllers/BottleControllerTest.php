@@ -6,6 +6,7 @@ use App\Http\Controllers\BottleController;
 use App\Models\Beer;
 use App\Models\Bottle;
 use App\Models\Bottling;
+use App\Models\Fermentation;
 use Carbon\Carbon;
 use Tests\TestCase;
 
@@ -36,7 +37,10 @@ class BottleControllerTest extends TestCase
 
     public function test_show_bottle_relations()
     {
-        Bottling::factory()->for(Beer::factory())->for($this->bottle)->create();
+        $fermentation = Fermentation::factory()->create();
+        Beer::factory()->for($fermentation)->create();
+        Bottling::factory()->for($fermentation)->for($this->bottle)->create();
+
         $this->get('/api/materials/bottles/'.$this->bottle->getKey().'/relations')
             ->assertOk()
             ->assertExactJsonStructure([
@@ -68,12 +72,13 @@ class BottleControllerTest extends TestCase
         Carbon::setTestNow('2026-05-23 10:13');
 
         // drunk one (same bottle)
-        $drunkBottlingId = Bottling::factory()->for(Beer::factory())->for($this->bottle)->create(
+        $drunkBottlingId = Bottling::factory()->for(Fermentation::factory())->for($this->bottle)->create(
             ['deleted_at' => '2026-05-23 10:10']
         )->getKey();
 
         // to consume (same bottle)
-        $toConsumeBottlingId = Bottling::factory()->for(Beer::factory())->for($this->bottle)->create()->getKey();
+        $toConsumeBottlingId = Bottling::factory()->for(Fermentation::factory())->for($this->bottle)->create()->getKey(
+        );
 
         $this->assertDatabaseCount('bottlings', 2);
 

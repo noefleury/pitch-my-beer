@@ -33,14 +33,14 @@ class BottledBeerSeeder extends Seeder
         $fermenter = Fermenter::factory()->create();
         $bottle    = Bottle::factory()->create();
 
-        // create fermentation + beer
+        // create wort + fermentation + beer
         $wort         = Wort::factory()->create();
         $fermentation = Fermentation::factory()->for($wort)->for($fermenter)->create();
+        Beer::factory()->for($fermentation)->create();
         FermentationGravity::factory()->for($fermentation)->create();
         FermentationGravity::factory()->for($fermentation)->create(['value' => 1.000]);
-        $beer = Beer::factory()->for($fermentation)->create(['status' => BeerStatus::Ready]);
 
         // put it in bottle
-        Bottling::factory()->for($beer)->for($bottle)->create();
+        Bottling::factory()->for($fermentation)->for($bottle)->create();
     }
 }

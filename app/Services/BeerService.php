@@ -5,9 +5,9 @@ namespace App\Services;
 use App\Enums\BeerStatus;
 use App\Enums\FermenterType;
 use App\Models\Beer;
+use App\Models\Fermentation;
 use App\Models\Keg;
 use App\Models\Kegging;
-use App\Models\Wort;
 use Illuminate\Database\Eloquent\Collection;
 
 class BeerService
@@ -38,19 +38,48 @@ class BeerService
      * @param   Beer  $beer
      *
      * @return array
+     *
+     * TODO: maybe merge _bought attributes
+     * TODO: maybe avoid flatten and group by list of fermentation
      */
     public function getRelationsData(Beer $beer): array
     {
         return [
-            'fermentation' => $beer->fermentation()->first(),
-            'keggings'     => $beer->keggings()
+            'fermentation'     => $beer->fermentation()->first(),
+            'keggings'         => $beer->fermentation()
+                ->get()
+                ->map(function (Fermentation $fermentation) {
+                    return $fermentation->keggings()
+                        ->get()
+                        ->load('keg:id')
+                        ->sortByDesc('volume')
+                        ->sortBy('deleted_at')
+                        ->makeHidden(['kegged_id', 'kegged_type'])
+                        ->values();
+                })
+                ->flatten(),
+            'keggings_bought'  => $beer->keggings()
                 ->get()
                 ->load('keg:id')
                 ->sortByDesc('volume')
                 ->sortBy('deleted_at')
                 ->makeHidden(['kegged_id', 'kegged_type'])
                 ->values(),
-            'transfers'    => $beer->keggings()
+            'transfers'        => $beer->fermentation()
+                ->get()
+                ->map(function (Fermentation $fermentation) {
+                    return $fermentation->keggings()
+                        ->get()
+                        ->map(fn(Kegging $kegging) => $kegging->transfers(true))
+                        ->flatten()
+                        ->map(function (Kegging $kegging) {
+                            $kegging->kegged->makeHidden(['id', 'kegged_id', 'kegged_type']);
+
+                            return $kegging->makeHidden(['kegged_id', 'kegged_type']);
+                        });
+                })
+                ->flatten(),
+            'transfers_bought' => $beer->keggings()
                 ->get()
                 ->map(fn(Kegging $kegging) => $kegging->transfers(true))
                 ->flatten()
@@ -59,13 +88,19 @@ class BeerService
 
                     return $kegging->makeHidden(['kegged_id', 'kegged_type']);
                 }),
-            'bottlings'    => $beer->bottlings()
+            'bottlings'        => $beer->fermentation()
                 ->get()
-                ->load('bottle:id,volume')
-                ->sortByDesc('bottle.volume')
-                ->sortBy('deleted_at')
-                ->values(),
-            'comments'     => $beer->comments()->get(),
+                ->map(function (Fermentation $fermentation) {
+                    return $fermentation->bottlings()
+                        ->get()
+                        ->load('bottle:id,volume')
+                        ->sortByDesc('bottle.volume')
+                        ->sortBy('deleted_at')
+                        ->values();
+                })
+                ->flatten(),
+
+            'comments' => $beer->comments()->get(),
         ];
     }
 
