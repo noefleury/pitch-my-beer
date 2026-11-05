@@ -33,6 +33,10 @@ class FermentationGravity extends Model
         'value' => 'double',
     ];
 
+    protected $hidden = [
+        'fermentation_id',
+    ];
+
     public function fermentation(): BelongsTo
     {
         return $this->belongsTo(Fermentation::class);

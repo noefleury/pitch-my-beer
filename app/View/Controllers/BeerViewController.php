@@ -2,9 +2,11 @@
 
 namespace App\View\Controllers;
 
+use App\Helpers\Abv;
 use App\Helpers\Volume;
 use App\Models\Beer;
 use App\Models\Bottling;
+use App\Models\FermentationGravity;
 use App\Models\Kegging;
 use App\Services\BeerService;
 use App\View\Components\Table;
@@ -40,6 +42,21 @@ class BeerViewController extends ViewController
         $beer          = $beerService->get($beer);
         $beerRelations = $beerService->getRelationsData($beer);
 
+        if ($beer->is_homemade) {
+            $fermentationGravities     = $beerRelations['fermentation']->gravities->sortBy('created_at');
+            $fermentationGravitiesRows = Table::buildTableRows(
+                $fermentationGravities,
+                [
+                    fn(FermentationGravity $gravity) => $gravity->value,
+                    fn(FermentationGravity $gravity) => round(
+                            Abv::computeFromGravities($fermentationGravities->first()->value, $gravity->value),
+                            2
+                        ).' %',
+                    'created_at',
+                ],
+            );
+        }
+
         $keggingsRows = Table::buildTableRows(
             $beerRelations['keggings'],
             [
@@ -74,6 +91,8 @@ class BeerViewController extends ViewController
         return view('beers.beer', [
             'beer'             => $beer,
             'relations'        => (object)$beerService->getRelationsData($beer),
+            'gravitiesHeaders' => ['Gravity', 'ABV', 'Date'],
+            'gravitiesRows'    => $fermentationGravitiesRows ?? null,
             'keggingsHeaders'  => ['Volume', 'Available', 'Keg', 'Date'],
             'keggingsRows'     => $keggingsRows,
             'transfersHeaders' => ['Volume', 'Available', 'Keg', 'From', 'Date'],

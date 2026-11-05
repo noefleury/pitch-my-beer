@@ -45,7 +45,7 @@ class BeerService
     public function getRelationsData(Beer $beer): array
     {
         return [
-            'fermentation'     => $beer->fermentation()->first(),
+            'fermentation'     => $beer->fermentation()->with('gravities')->first(),
             'keggings'         => $beer->fermentation()
                 ->get()
                 ->map(function (Fermentation $fermentation) {

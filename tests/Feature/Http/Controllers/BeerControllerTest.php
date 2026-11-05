@@ -8,6 +8,7 @@ use App\Models\Bottle;
 use App\Models\Bottling;
 use App\Models\Comment;
 use App\Models\Fermentation;
+use App\Models\FermentationGravity;
 use App\Models\Fermenter;
 use App\Models\Keg;
 use App\Models\Kegging;
@@ -27,7 +28,8 @@ class BeerControllerTest extends TestCase
     private function seedBaseData(): void
     {
         $this->fermentation = Fermentation::factory()->for(Wort::factory())->for(Fermenter::factory())->create();
-        $this->beer         = Beer::factory()->for($this->fermentation)->create();
+        FermentationGravity::factory()->for($this->fermentation)->create();
+        $this->beer = Beer::factory()->for($this->fermentation)->create();
         Comment::factory()->for($this->beer, 'entity')->create();
     }
 
@@ -96,6 +98,13 @@ class BeerControllerTest extends TestCase
                     'fermenter_type',
                     'volume',
                     'created_at',
+                    'gravities' => [
+                        0 => [
+                            'id',
+                            'value',
+                            'created_at',
+                        ],
+                    ],
                 ],
                 'keggings'         => [
                     0 => [

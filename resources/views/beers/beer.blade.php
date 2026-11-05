@@ -25,9 +25,12 @@
     {{ Volume::getFormattedValue($beer->volume) }}
     <br/>
 
-    <b>{{ __('ABV') }}</b>
-    {{ filled($beer->abv) ? round($beer->abv, 2).' %' : __('N/A') }}
-    <br/>
+    @if($beer->abv)
+        <b>{{ __('ABV') }}</b>
+        {{ filled($beer->abv) ? round($beer->abv, 2).' %' : __('N/A') }}
+        <br/>
+    @endif
+
 
     <b>{{ __('status') |> ucfirst(...) }}</b>
     {{ $beer->status }}
@@ -60,10 +63,14 @@
         <br/>
 
         @if($relations->fermentation->fermenter_type === FermenterType::Fermenter)
-            <a href="{{route('fermenter', ['fermenter' => $relations->fermentation->fermenter_id])}}">{{__('See')}}</a>
+            <a href="{{route('fermenter', ['fermenter' => $relations->fermentation->fermenter_id])}}">{{$relations->fermentation->fermenter->getUniqueIdentifier()}}</a>
         @elseif($relations->fermentation->fermenter_type === FermenterType::Keg)
-            <a href="{{route('keg', ['keg' => $relations->fermentation->fermenter_id])}}">{{__('See')}}</a>
+            <a href="{{route('keg', ['keg' => $relations->fermentation->fermenter_id])}}">{{$relations->fermentation->fermenter->getUniqueIdentifier()}}</a>
         @endif
+        <br/>
+
+        <br/>
+        <x-table :headers="$gravitiesHeaders" :rows="$gravitiesRows"></x-table>
         <br/>
 
     @endif
