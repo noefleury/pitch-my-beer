@@ -73,6 +73,7 @@ class Beer extends Model
         return $this->belongsTo(Fermentation::class);
     }
 
+    /** when bought */
     public function keggings(): MorphMany
     {
         return $this->morphMany(Kegging::class, 'kegged');

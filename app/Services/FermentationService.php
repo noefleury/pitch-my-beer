@@ -18,15 +18,13 @@ class FermentationService
      * @note maybe could take Beer with fermenting status
      *
      * @return Collection<Fermentation>
-     *
-     * @todo maybe it should have relation from fermentation to kegging/bottling
      */
     public function list(): Collection
     {
         return Fermentation::query()
             ->with('beer:id,fermentation_id,name,type,created_at')
-            ->whereDoesntHave('beer.keggings')
-            ->whereDoesntHave('beer.bottlings')
+            ->whereDoesntHave('keggings')
+            ->whereDoesntHave('bottlings')
             ->get()
             ->append('fermenting_days');
     }

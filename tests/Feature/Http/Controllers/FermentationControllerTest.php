@@ -14,6 +14,11 @@ use Tests\TestCase;
 class FermentationControllerTest extends TestCase
 {
 
+    public function test_list_fermentations()
+    {
+        $this->markTestIncomplete('todo');
+    }
+
     public function test_create_fermentation()
     {
         $this->markTestIncomplete('todo');
